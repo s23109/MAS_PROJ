@@ -9,9 +9,7 @@ namespace MAS_PROJ.Shared.Models
 {
     public class Client
     {
-        [Required]
         public DateOnly RegistrationDate { get; set; }
-
-        public string? ClientNotes { get; set; }; 
+        public string? ClientNotes { get; set; }
     }
 }

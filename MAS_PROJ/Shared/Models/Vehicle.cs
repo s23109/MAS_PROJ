@@ -8,9 +8,7 @@ namespace MAS_PROJ.Shared.Models
 {
     public class Vehicle
     {
-        public Vehicle()
-        {
-        }
+        public Vehicle() {}
 
         public int IdVehicle { get; set; }
         public string Manufacturer { get; set; }

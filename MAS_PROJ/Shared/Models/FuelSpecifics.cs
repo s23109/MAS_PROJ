@@ -12,11 +12,11 @@ namespace MAS_PROJ.Shared.Models
 
         //Combustion Attributes
         public int? TankCapacity { get; set; }
-        public CombustionTypes CombustionType { get; set; }
+        public CombustionTypes? CombustionType { get; set; }
 
         //Electric Attributes
         public int? BatteryCapacity { get; set; }
-        public BatteryTypes BatteryTypes { get; set; }
+        public BatteryTypes? BatteryType { get; set; }
 
         //Other Attributes 
         public string? FuelTypeDescription { get; set; }

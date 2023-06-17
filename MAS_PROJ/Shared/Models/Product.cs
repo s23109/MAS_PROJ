@@ -13,5 +13,5 @@ namespace MAS_PROJ.Shared.Models
         public ProductState State { get; set; } = ProductState.InStock;
     }
 
-    public enum ProductState { InStock, Sold, Returned}
+    public enum ProductState { InStock, Sold, Returned }
 }

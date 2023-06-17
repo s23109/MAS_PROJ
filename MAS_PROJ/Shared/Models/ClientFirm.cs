@@ -9,11 +9,8 @@ namespace MAS_PROJ.Shared.Models
 {
     public class ClientFirm:SystemUser
     {
-        public ClientFirm() { }
-
-        [Required]
+        public ClientFirm() {}
         public string RegonNumber { get; set; }
-
         public Client ClientData{ get; set; }
     }
 }

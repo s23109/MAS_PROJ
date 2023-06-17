@@ -9,9 +9,7 @@ namespace MAS_PROJ.Shared.Models
 {
     public class Part
     {
-        public Part()
-        {
-        }
+        public Part() {}
         public int IdPart { get; set; }
         public string Name { get; set; }
         public string Manufacturer { get; set; }
@@ -23,7 +21,7 @@ namespace MAS_PROJ.Shared.Models
         public List<Product> Products { get; set; } = new List<Product>();
 
         //Association Recursive - Part 
-        public IEnumerable<Part> Alternatives { get; set; }
+        public IEnumerable<Part> AlternativePartNavigation { get; set; }
 
         //Association - VehiclePart
         public IEnumerable<VehiclePart> VehiclePartNavigation { get; set; }

@@ -9,10 +9,7 @@ namespace MAS_PROJ.Shared.Models
 {
     public class Employee : SystemUser
     {
-        public Employee()
-        {
-        }
-
+        public Employee() {}
         public DateOnly HireDate { get; set; }
         public DateOnly? FireDate { get; set; }
         [Column(TypeName = "decimal(18,2)")]

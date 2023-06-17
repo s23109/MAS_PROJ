@@ -9,9 +9,7 @@ namespace MAS_PROJ.Shared.Models
 {
     public class Sale
     {
-        public Sale()
-        {
-        }
+        public Sale() {}
 
         public int IdSale { get; set; }
         public DateTime DateOfTransaction { get; set; }
