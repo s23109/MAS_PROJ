@@ -1,3 +1,4 @@
+Klasy:
 Użytkownik Systemu -> SystemUser
 Klient Firma -> ClientFirm
 Klient Indywidualny -> ClientPerson
@@ -16,3 +17,7 @@ Pojazd Wodny -> WaterVehicle
 Specyfika Napędu Jezdnego (koła/gąs)-> PoiseSpecifics
 Specyfika Napędu Własnego (paliwo)-> FuelSpecifics
 Specyfika Przeznaczenia -> PurposeSpecifics
+
+Atrybuty:
+Dane o kliencie -> ClientData
+Dane Personalne -> PersonalData
