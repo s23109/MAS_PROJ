@@ -21,6 +21,5 @@ namespace MAS_PROJ.Shared.Models
     }
 
     public enum PurposeType { Transport, Passenger }
-
     public enum LoadType { Liquid, Gas, Solid }
 }
