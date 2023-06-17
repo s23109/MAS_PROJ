@@ -1,0 +1,18 @@
+Użytkownik Systemu -> SystemUser
+Klient Firma -> ClientFirm
+Klient Indywidualny -> ClientPerson
+Pracownik -> Employee
+Sprzedaż -> Sale
+Egzemplarz Adnotacja -> ProductReference
+Część -> Part
+Egzemplarz Części -> Product
+Klient -> Client
+Osoba -> Person
+Pojazd -> Vehicle
+Pojazd Część -> VehiclePart
+Podtyp Pojazdu -> VehicleSubType
+Pojazd Lądowy -> LandVehicle
+Pojazd Wodny -> WaterVehicle
+Specyfika Napędu Jezdnego (koła/gąs)-> PoiseSpecifics
+Specyfika Napędu Własnego (paliwo)-> FuelSpecifics
+Specyfika Przeznaczenia -> PurposeSpecifics
