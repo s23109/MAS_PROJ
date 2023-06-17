@@ -18,5 +18,8 @@ namespace MAS_PROJ.Shared.Models
         public DateOnly ProductionStart { get; set; }
         public DateOnly? ProductionEnd { get; set; }
         public string? VehicleNotes { get; set; }
+
+        //Association - VehicleSubtype
+        public IEnumerable<VehicleSubType> VehicleSubTypeNavigation { get; set; }
     }
 }
