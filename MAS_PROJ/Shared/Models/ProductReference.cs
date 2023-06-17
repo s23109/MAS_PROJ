@@ -12,5 +12,13 @@ namespace MAS_PROJ.Shared.Models
         {
         }
         public decimal? SalePrice { get; set; }
+
+        //Association - Part
+        public int? IdPart { get; set; }
+        public Part? PartNavigation { get; set; }
+
+        //Association - Sale
+        public int IdSale { get; set; }
+        public Sale SaleNavigation { get; set; }
     }
 }

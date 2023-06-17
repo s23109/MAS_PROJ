@@ -19,7 +19,16 @@ namespace MAS_PROJ.Shared.Models
         public string PartCategory { get; set; }
         [Column(TypeName = "decimal(18,2)")]
         public decimal CurrentPrice { get; set; }
-
         public static DateOnly OldestReturnDate { get; set; }
+        public List<Product> Products { get; set; } = new List<Product>();
+
+        //Association Recursive - Part 
+        public IEnumerable<Part> Alternatives { get; set; }
+
+        //Association - VehiclePart
+        public IEnumerable<VehiclePart> VehiclePartNavigation { get; set; }
+
+        //Association - ProductReference
+        public IEnumerable<ProductReference> ProductReferenceNavigation { get; set; }
     }
 }

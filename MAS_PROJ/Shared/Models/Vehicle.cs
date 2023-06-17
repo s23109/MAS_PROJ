@@ -21,5 +21,8 @@ namespace MAS_PROJ.Shared.Models
 
         //Association - VehicleSubtype
         public IEnumerable<VehicleSubType> VehicleSubTypeNavigation { get; set; }
+
+        //Association - VehiclePart
+        public IEnumerable<VehiclePart> VehiclePartNavigation { get; set;}
     }
 }
