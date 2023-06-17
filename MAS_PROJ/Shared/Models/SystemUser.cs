@@ -14,13 +14,11 @@ namespace MAS_PROJ.Shared.Models
         }
 
         public int IdUser { get; set; }
-        [Required]
-        [Phone]
         public string PhoneNumber { get; set; }
-        [Required]
-        [EmailAddress]
         public string Email { get; set; }
-        [Required]
         public string Adress { get; set; }
+
+        //Association - Sale
+        public IEnumerable<Sale> OwnSaleNavigation { get; set; }
     }
 }

@@ -19,5 +19,9 @@ namespace MAS_PROJ.Shared.Models
         public decimal CurrentSalary { get; set; }
         public string? EmployeeNotes { get; set; }
         public PersonalData PersonalData { get; set; }
+
+        //Association - Sale
+        public IEnumerable<Sale> PerformedSaleNavigation { get; set; }
+
     }
 }
