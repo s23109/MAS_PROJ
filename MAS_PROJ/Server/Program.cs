@@ -1,3 +1,4 @@
+global using MAS_PROJ.Shared;
 using Microsoft.AspNetCore.ResponseCompression;
 
 var builder = WebApplication.CreateBuilder(args);

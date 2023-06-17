@@ -25,5 +25,9 @@
     <ProjectReference Include="..\Shared\MAS_PROJ.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Controllers\" />
+  </ItemGroup>
+
 
 </Project>
