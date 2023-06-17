@@ -12,7 +12,7 @@ namespace MAS_PROJ.Shared.Models
         public Part()
         {
         }
-        public int Id { get; set; }
+        public int IdPart { get; set; }
         public string Name { get; set; }
         public string Manufacturer { get; set; }
         public string PartType { get; set; }

@@ -6,13 +6,10 @@ using System.Threading.Tasks;
 
 namespace MAS_PROJ.Shared.Models
 {
-    public class Sale
+    public class VehicleSubType
     {
-        public Sale()
-        {
-        }
-
-        public int IdSale { get; set; }
-        public DateTime DateOfTransaction { get; set; }
+        public int IdSubtype { get; set; }
+        public string? Name { get; set; }
+        public string? SubtypeNotes { get; set; }
     }
 }
