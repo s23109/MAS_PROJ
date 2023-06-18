@@ -1,6 +1,7 @@
 global using MAS_PROJ.Shared;
 global using MAS_PROJ.Shared.Models;
 using MAS_PROJ.Server.Data;
+using MAS_PROJ.Server.Services.VehicleService;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,6 +12,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<MyDbContext>(options => {
     options.UseSqlServer(builder.Configuration.GetConnectionString("Default"));
 });
+
+//Services
+builder.Services.AddScoped<IVehicleService,VehicleService>(); 
+
+
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
