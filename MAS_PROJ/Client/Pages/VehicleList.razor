@@ -1,0 +1,21 @@
+﻿@page "/Vehicles"
+
+@inject IVehicleService VehicleService
+
+<PageTitle>Vehicle List</PageTitle>
+
+@if (VehicleService.Vehicles == null || VehicleService.Vehicles.Count == 0)
+{
+    <span>@VehicleService.Message</span>
+}else
+{
+    <span>Loaded products</span>
+}
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        await VehicleService.GetVehiclesAsync();
+    }
+
+}
