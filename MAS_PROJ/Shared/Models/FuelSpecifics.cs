@@ -11,7 +11,7 @@ namespace MAS_PROJ.Shared.Models
     [Owned]
     public class FuelSpecifics
     {
-        public List<FuelType> FuelTypes { get; set; } = new List<FuelType>();
+        public HashSet<FuelType> FuelTypes { get; set; } = new HashSet<FuelType>();
 
         //Combustion Attributes
         public int? TankCapacity { get; set; }

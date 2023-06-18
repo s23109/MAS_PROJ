@@ -10,8 +10,6 @@ namespace MAS_PROJ.Shared.Models
     [Owned]
     public class PurposeType
     {
-        public int Id { get; set; }
-
         public PurposeTypes PurposeTypes { get; set; }
     }
 

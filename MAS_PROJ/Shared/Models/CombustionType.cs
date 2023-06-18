@@ -10,8 +10,6 @@ namespace MAS_PROJ.Shared.Models
     [Owned]
     public class CombustionType
     {
-        public int Id { get; set; }
-
         public CombustionTypes CombustionTypes { get; set; }
 
     }

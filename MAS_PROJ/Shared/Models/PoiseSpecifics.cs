@@ -12,7 +12,7 @@ namespace MAS_PROJ.Shared.Models
     [Owned]
     public class PoiseSpecifics
     {
-        public List<PoiseType> PoiseTypes { get; set; } = new List<PoiseType>();
+        public HashSet<PoiseType> PoiseTypes { get; set; } = new HashSet<PoiseType>();
 
         //Wheel Atributes
         public int? WheelAmount { get; set; }
