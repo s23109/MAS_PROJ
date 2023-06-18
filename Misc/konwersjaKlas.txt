@@ -7,7 +7,7 @@ Sprzedaż -> Sale
 Egzemplarz Adnotacja -> ProductReference
 Część -> Part
 Egzemplarz Części -> Product
-Klient -> Client
+Klient -> ClientData
 Osoba -> Person
 Pojazd -> Vehicle
 Pojazd Część -> VehiclePart
@@ -17,7 +17,3 @@ Pojazd Wodny -> WaterVehicle
 Specyfika Napędu Jezdnego (koła/gąs)-> PoiseSpecifics
 Specyfika Napędu Własnego (paliwo)-> FuelSpecifics
 Specyfika Przeznaczenia -> PurposeSpecifics
-
-Atrybuty:
-Dane o kliencie -> ClientData
-Dane Personalne -> PersonalData

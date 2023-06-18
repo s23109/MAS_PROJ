@@ -12,9 +12,11 @@ namespace MAS_PROJ.Shared.Models
         public ProductReference() {}
         [Column(TypeName = "decimal(18,2)")]
         public decimal? SalePrice { get; set; }
+        public int IdProduct { get; set; }
 
         //Association - Part
         public int? IdPart { get; set; }
+        
         public Part? PartNavigation { get; set; }
 
         //Association - Sale

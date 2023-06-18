@@ -1,14 +1,17 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace MAS_PROJ.Shared.Models
 {
+    [Owned]
     public class FuelSpecifics
     {
-        public List<FuelTypes> FuelTypes { get; set; } = new List<FuelTypes>();
+        public List<FuelTypes>? FuelTypes { get; set; }
 
         //Combustion Attributes
         public int? TankCapacity { get; set; }
@@ -20,6 +23,8 @@ namespace MAS_PROJ.Shared.Models
 
         //Other Attributes 
         public string? FuelTypeDescription { get; set; }
+
+
     }
 
     public enum FuelTypes { Combustion, Electric, Other }

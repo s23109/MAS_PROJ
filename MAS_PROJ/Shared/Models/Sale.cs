@@ -19,12 +19,12 @@ namespace MAS_PROJ.Shared.Models
 
         //Association - SystemUser
         public int? IdUser { get; set; }
-        public SystemUser BuyerNavigation { get; set; }
+        public SystemUser? BuyerNavigation { get; set; }
 
         //Association - Employee
         public int? IdEmployee { get; set; }
         [ForeignKey("IdUser")]
-        public Employee EmployeeNavigation { get; set; }  
+        public Employee? EmployeeNavigation { get; set; }  
 
 
     }

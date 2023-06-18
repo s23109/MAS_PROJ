@@ -1,9 +1,16 @@
 global using MAS_PROJ.Shared;
+global using MAS_PROJ.Shared.Models;
+using MAS_PROJ.Server.Data;
 using Microsoft.AspNetCore.ResponseCompression;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+builder.Services.AddDbContext<MyDbContext>(options => {
+    options.UseSqlServer(builder.Configuration.GetConnectionString("Default"));
+});
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();

@@ -11,6 +11,6 @@ namespace MAS_PROJ.Shared.Models
     {
         public ClientFirm() {}
         public string RegonNumber { get; set; }
-        public Client ClientData{ get; set; }
+        public ClientData ClientData{ get; set; }
     }
 }

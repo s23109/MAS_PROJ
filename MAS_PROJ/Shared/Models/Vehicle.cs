@@ -13,8 +13,8 @@ namespace MAS_PROJ.Shared.Models
         public int IdVehicle { get; set; }
         public string Manufacturer { get; set; }
         public string Model{ get; set; }
-        public DateOnly ProductionStart { get; set; }
-        public DateOnly? ProductionEnd { get; set; }
+        public DateTime ProductionStart { get; set; }
+        public DateTime? ProductionEnd { get; set; }
         public string? VehicleNotes { get; set; }
 
         //Association - VehicleSubtype
