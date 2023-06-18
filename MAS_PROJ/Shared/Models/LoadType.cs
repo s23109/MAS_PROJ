@@ -10,7 +10,6 @@ namespace MAS_PROJ.Shared.Models
     [Owned]
     public class LoadType
     {
-        public int Id { get; set; }
         public LoadTypes LoadTypes { get; set; }
     }
 

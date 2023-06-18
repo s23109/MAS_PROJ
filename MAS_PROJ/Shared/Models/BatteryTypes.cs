@@ -10,8 +10,6 @@ namespace MAS_PROJ.Shared.Models
     [Owned]
     public class BatteryType
     {
-        public int Id { get; set; }
-
         public BatteryTypes BatteryTypes { get; set; }
 
     }
