@@ -13,6 +13,11 @@ namespace MAS_PROJ.Server.Controllers
             _vehicleService = vehicleService;
         }
 
-
+        [HttpGet]
+        public async Task<ActionResult<ServiceResponse<List<Vehicle>>>> GetVehiclesAsync()
+        {
+            var result = await _vehicleService.GetVehiclesAsync();
+            return Ok(result);
+        }
     }
 }
