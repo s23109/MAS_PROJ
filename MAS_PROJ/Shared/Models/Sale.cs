@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
@@ -11,8 +10,6 @@ namespace MAS_PROJ.Shared.Models
     public class Sale
     {
         public Sale() {}
-
-        [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int IdSale { get; set; }
         public DateTime DateOfTransaction { get; set; }

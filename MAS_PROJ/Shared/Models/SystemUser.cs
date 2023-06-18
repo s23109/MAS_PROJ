@@ -13,8 +13,6 @@ namespace MAS_PROJ.Shared.Models
         public SystemUser()
         {
         }
-
-        [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int IdUser { get; set; }
         public string PhoneNumber { get; set; }

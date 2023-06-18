@@ -11,7 +11,7 @@ namespace MAS_PROJ.Shared.Models
     [Owned]
     public class PurposeSpecifics
     {
-        public HashSet<PurposeType> Purposes { get; set; } = new HashSet<PurposeType>();
+        public HashSet<PurposeType>? Purposes { get; set; } = new HashSet<PurposeType>();
 
         //Transport Attributes
         public int? ShipCapacity { get; set; }

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MAS_PROJ.Server.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    [Migration("20230618140455_IdsInEnumWrappersDelete")]
-    partial class IdsInEnumWrappersDelete
+    [Migration("20230618185612_SampleData")]
+    partial class SampleData
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -106,6 +106,7 @@ namespace MAS_PROJ.Server.Migrations
             modelBuilder.Entity("MAS_PROJ.Shared.Models.Sale", b =>
                 {
                     b.Property<int>("IdSale")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
                     b.Property<DateTime>("DateOfTransaction")
@@ -183,6 +184,41 @@ namespace MAS_PROJ.Server.Migrations
                     b.HasKey("IdVehicle");
 
                     b.ToTable("Vehicles");
+
+                    b.HasData(
+                        new
+                        {
+                            IdVehicle = 1,
+                            Manufacturer = "Toyota",
+                            Model = "Corolla",
+                            ProductionEnd = new DateTime(2001, 1, 29, 0, 3, 0, 0, DateTimeKind.Unspecified),
+                            ProductionStart = new DateTime(1997, 1, 2, 0, 3, 0, 0, DateTimeKind.Unspecified),
+                            VehicleNotes = "Pre lift"
+                        },
+                        new
+                        {
+                            IdVehicle = 2,
+                            Manufacturer = "PC",
+                            Model = "M3",
+                            ProductionEnd = new DateTime(2016, 1, 9, 0, 12, 0, 0, DateTimeKind.Unspecified),
+                            ProductionStart = new DateTime(2014, 1, 11, 0, 11, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            IdVehicle = 3,
+                            Manufacturer = "BoatFirm",
+                            Model = "Floater",
+                            ProductionEnd = new DateTime(2012, 1, 1, 0, 2, 0, 0, DateTimeKind.Unspecified),
+                            ProductionStart = new DateTime(2004, 1, 2, 0, 3, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            IdVehicle = 4,
+                            Manufacturer = "TTT",
+                            Model = "Transporter",
+                            ProductionEnd = new DateTime(2012, 1, 1, 0, 2, 0, 0, DateTimeKind.Unspecified),
+                            ProductionStart = new DateTime(2004, 1, 2, 0, 3, 0, 0, DateTimeKind.Unspecified)
+                        });
                 });
 
             modelBuilder.Entity("MAS_PROJ.Shared.Models.VehiclePart", b =>
@@ -272,6 +308,24 @@ namespace MAS_PROJ.Server.Migrations
                         .HasColumnType("int");
 
                     b.ToTable("LandVehicle", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            IdSubtype = 1,
+                            IdVehicle = 1,
+                            Name = "Basic",
+                            EnginePower = 86,
+                            EngineTorque = 90
+                        },
+                        new
+                        {
+                            IdSubtype = 2,
+                            IdVehicle = 2,
+                            Name = "Premium",
+                            EnginePower = 120,
+                            EngineTorque = 150
+                        });
                 });
 
             modelBuilder.Entity("MAS_PROJ.Shared.Models.WaterVehicle", b =>
@@ -282,6 +336,22 @@ namespace MAS_PROJ.Server.Migrations
                         .HasColumnType("int");
 
                     b.ToTable("WaterVehicle", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            IdSubtype = 3,
+                            IdVehicle = 3,
+                            Name = "Unsinkable Type",
+                            MinCrew = 12
+                        },
+                        new
+                        {
+                            IdSubtype = 4,
+                            IdVehicle = 4,
+                            Name = "Tanker",
+                            MinCrew = 35
+                        });
                 });
 
             modelBuilder.Entity("MAS_PROJ.Shared.Models.Part", b =>
@@ -561,6 +631,16 @@ namespace MAS_PROJ.Server.Migrations
                             b1.Navigation("CombustionType");
 
                             b1.Navigation("FuelTypes");
+
+                            b1.HasData(
+                                new
+                                {
+                                    LandVehicleIdSubtype = 1
+                                },
+                                new
+                                {
+                                    LandVehicleIdSubtype = 2
+                                });
                         });
 
                     b.OwnsOne("MAS_PROJ.Shared.Models.PoiseSpecifics", "PoiseSpecifics", b1 =>
@@ -610,6 +690,16 @@ namespace MAS_PROJ.Server.Migrations
                                 });
 
                             b1.Navigation("PoiseTypes");
+
+                            b1.HasData(
+                                new
+                                {
+                                    LandVehicleIdSubtype = 1
+                                },
+                                new
+                                {
+                                    LandVehicleIdSubtype = 2
+                                });
                         });
 
                     b.Navigation("FuelSpecifics")
@@ -695,6 +785,16 @@ namespace MAS_PROJ.Server.Migrations
                             b1.Navigation("Loads");
 
                             b1.Navigation("Purposes");
+
+                            b1.HasData(
+                                new
+                                {
+                                    WaterVehicleIdSubtype = 3
+                                },
+                                new
+                                {
+                                    WaterVehicleIdSubtype = 4
+                                });
                         });
 
                     b.OwnsOne("MAS_PROJ.Shared.Models.FuelSpecifics", "FuelSpecifics", b1 =>
@@ -777,6 +877,16 @@ namespace MAS_PROJ.Server.Migrations
                             b1.Navigation("CombustionType");
 
                             b1.Navigation("FuelTypes");
+
+                            b1.HasData(
+                                new
+                                {
+                                    WaterVehicleIdSubtype = 3
+                                },
+                                new
+                                {
+                                    WaterVehicleIdSubtype = 4
+                                });
                         });
 
                     b.Navigation("FuelSpecifics")
