@@ -10,7 +10,6 @@ namespace MAS_PROJ.Shared.Models
     [Owned]
     public class PoiseType
     {
-        public int Id { get; set; }
         public PoiseTypes PoiseTypes { get; set; }
     }
     public enum PoiseTypes { Wheels, Tracks }
