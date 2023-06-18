@@ -21,7 +21,9 @@ namespace MAS_PROJ.Shared.Models
         public List<Product> Products { get; set; } = new List<Product>();
 
         //Association Recursive - Part 
-        public IEnumerable<Part> AlternativePartNavigation { get; set; }
+        public int? IdPartParent { get; set; }
+        public Part? PartParent { get; set; }
+        public IEnumerable<Part>? AlternativePartNavigation { get; set; }
 
         //Association - VehiclePart
         public IEnumerable<VehiclePart> VehiclePartNavigation { get; set; }

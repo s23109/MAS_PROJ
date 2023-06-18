@@ -29,15 +29,17 @@ namespace MAS_PROJ.Server.Data
                 model.HasKey(e => e.IdSubtype);
             });
 
+            //to different tables, because fuelspecifics model by default wants to be only in one table 
             modelBuilder.Entity<LandVehicle>(model => {
                 model.OwnsOne(e => e.FuelSpecifics);
                 model.OwnsOne(e => e.PoiseSpecifics);
-
+                model.ToTable("LandVehicle");
             });
 
             modelBuilder.Entity<WaterVehicle>(model => {
                 model.OwnsOne(e => e.FuelSpecifics);
                 model.OwnsOne(e => e.PurposeSpecifics);
+                model.ToTable("WaterVehicle");
             });
 
             modelBuilder.Entity<VehiclePart>(model => {
@@ -53,7 +55,12 @@ namespace MAS_PROJ.Server.Data
                 model.HasMany(e => e.ProductReferenceNavigation)
                 .WithOne(e => e.PartNavigation)
                 .HasForeignKey(e => e.IdPart)
-                .OnDelete(DeleteBehavior.SetNull);
+                .OnDelete(DeleteBehavior.NoAction);
+
+                model.HasMany(e => e.AlternativePartNavigation)
+                .WithOne(e => e.PartParent)
+                .HasForeignKey(e => e.IdPartParent)
+                .OnDelete(DeleteBehavior.NoAction);
             
             });
 

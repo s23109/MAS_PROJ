@@ -11,25 +11,19 @@ namespace MAS_PROJ.Shared.Models
     [Owned]
     public class FuelSpecifics
     {
-        public List<FuelTypes>? FuelTypes { get; set; }
+        public List<FuelType> FuelTypes { get; set; } = new List<FuelType>();
 
         //Combustion Attributes
         public int? TankCapacity { get; set; }
-        public CombustionTypes? CombustionType { get; set; }
+        public CombustionType? CombustionType { get; set; }
 
         //Electric Attributes
         public int? BatteryCapacity { get; set; }
-        public BatteryTypes? BatteryType { get; set; }
+        public BatteryType? BatteryType { get; set; }
 
         //Other Attributes 
         public string? FuelTypeDescription { get; set; }
 
-
     }
 
-    public enum FuelTypes { Combustion, Electric, Other }
-
-    public enum CombustionTypes { Diesel, Gasoline }
-
-    public enum BatteryTypes { NMC, LMO, LFP, NCA}
 }

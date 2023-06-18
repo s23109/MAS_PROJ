@@ -22,7 +22,4 @@ namespace MAS_PROJ.Shared.Models
         public int? MinLifeBoats { get; set; }
 
     }
-
-    public enum PurposeType { Transport, Passenger }
-    public enum LoadType { Liquid, Gas, Solid }
 }

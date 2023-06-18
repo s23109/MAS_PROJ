@@ -12,7 +12,7 @@ namespace MAS_PROJ.Shared.Models
     [Owned]
     public class PoiseSpecifics
     {
-        public List<PoiseTypes> PoiseTypes { get; set; } = new List<PoiseTypes>();
+        public List<PoiseType> PoiseTypes { get; set; } = new List<PoiseType>();
 
         //Wheel Atributes
         public int? WheelAmount { get; set; }
@@ -22,5 +22,4 @@ namespace MAS_PROJ.Shared.Models
         public int? TrackLength { get; set; }
         public int? TrackWidth { get; set; }
     }
-    public enum PoiseTypes { Wheels, Tracks }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
@@ -12,6 +13,7 @@ namespace MAS_PROJ.Shared.Models
         public ProductReference() {}
         [Column(TypeName = "decimal(18,2)")]
         public decimal? SalePrice { get; set; }
+        [Key]
         public int IdProduct { get; set; }
 
         //Association - Part
