@@ -14,18 +14,31 @@ namespace MAS_PROJ.Server.Services.VehicleService
             _configuration = configuration;
         }
 
-        public async Task<ServiceResponse<List<Vehicle>>> GetVehiclesAsync()
+        public async Task<ServiceResponse<List<VehicleGet>>> GetVehiclesAsync()
         {
-            var response = new ServiceResponse<List<Vehicle>>
+
+
+            var response = new ServiceResponse<List<VehicleGet>>
             {
-                Data = await _dbContext.Vehicles.ToListAsync()
+                Data = await _dbContext.Vehicles.
+                Select(e =>
+                    new VehicleGet
+                    {
+                        Id = e.IdVehicle,
+                        Manufacturer = e.Manufacturer,
+                        Model = e.Model,
+                        ProductionStart = e.ProductionStart,
+                        ProductionEnd = e.ProductionEnd,
+                        VehicleNotes = e.VehicleNotes
+                    })
+                .ToListAsync()
             };
-            
-            if (response.Data != null)
+
+            if (response.Data == null)
             {
-                response.Message = "None vehicles avalible";
+                response.Message = "No vehicles avalible";
             }
-            
+
             return response;
 
         }

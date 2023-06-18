@@ -2,7 +2,7 @@
 {
     public interface IVehicleService
     {
-        Task<ServiceResponse<List<Vehicle>>> GetVehiclesAsync();
+        Task<ServiceResponse<List<VehicleGet>>> GetVehiclesAsync();
 
 
     }

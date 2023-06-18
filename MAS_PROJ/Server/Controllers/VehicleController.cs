@@ -14,7 +14,7 @@ namespace MAS_PROJ.Server.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<ServiceResponse<List<Vehicle>>>> GetVehiclesAsync()
+        public async Task<ActionResult<ServiceResponse<List<VehicleGet>>>> GetVehiclesAsync()
         {
             var result = await _vehicleService.GetVehiclesAsync();
             return Ok(result);
