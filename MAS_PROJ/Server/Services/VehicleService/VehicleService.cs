@@ -50,6 +50,7 @@ namespace MAS_PROJ.Server.Services.VehicleService
                     })
                     .ToListAsync();
                 var allSubtypes = waterSubTypes.Concat(landSubTypes).ToList();
+
                 var vehicle = await _dbContext.Vehicles.AsNoTracking()
                     .Where(e => e.IdVehicle == IdVehicle)
                     .Select(e => new VehicleDetailsGet

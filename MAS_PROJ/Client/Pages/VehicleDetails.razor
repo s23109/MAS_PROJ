@@ -1,5 +1,55 @@
 ﻿@page "/Vehicles/{Id:int}"
-<h3>VehicleDetails</h3>
+@inject IVehicleService VehicleService
+
+@if(vehicle == null)
+{
+    <span>@message</span>
+}
+else 
+{
+    <div class="d-flex flex-row justify-content-between border-bottom border-dark "> 
+        <h3>@vehicle.Manufacturer @vehicle.Model</h3>
+        <a href="" class="text-decoration-none">
+            <div class="btn-success px-1">Add Subtype</div>
+        </a>
+    </div>
+    <h4 class="mt-2">Basic Info:</h4>
+    <div class="d-flex flex-wrap justify-content-around border-bottom border-dark pb-2">
+            <div class="mx-1">
+                <span>Manufacturer:</span>
+                <span>@vehicle.Manufacturer</span>
+            </div>
+            <div class="mx-1">
+                <span>Model:</span>
+                <span>@vehicle.Model</span>
+            </div>
+            <div class="mx-1">
+                <span>Production Start:</span>
+                <span>@vehicle.ProductionStart.ToString("yyyy")</span>
+            </div
+            <div class="mx-1">
+                <span>Production End:</span>
+                <span>@vehicle.ProductionEnd.GetValueOrDefault().ToString("yyyy")</span>
+            </div>
+            <div class="mx-1">
+                <span>Notes:</span>
+                <span>@vehicle.VehicleNotes</span>
+            </div>
+            <div class="mx-1">
+                <span>Amount of Subtypes:</span>
+                <span>@vehicle.VehicleSubType.Count</span>
+            </div>
+    </div>
+    <h5 class="mt-2">Subtypes:</h5>
+    
+    @foreach(var subtype in vehicle.VehicleSubType)
+    {
+        <div class="d-flex flex-wrap justify-content-around border-1 border-dark pb-2">
+            <span>Amount of Subtypes:</span>
+                <span>@vehicle.VehicleSubType.Count</span>
+        </div>
+    }
+}
 
 
 
@@ -7,7 +57,23 @@
 
     [Parameter]
     public int Id { get; set; }
-    private Vehicle? vehicle = null;
 
+    private string message = string.Empty;
+    private VehicleDetailsGet? vehicle = null;
 
+    protected override async Task OnParametersSetAsync()
+    {
+        message = "Loading Vehicle...";
+
+        var result = await VehicleService.GetVehicleDetailsAsync(Id);
+
+        if (!result.Success)
+        {
+            message = result.Message;
+        }
+        else
+        {
+            vehicle = result.Data;
+        }
+    }
 }
