@@ -8,7 +8,7 @@ namespace MAS_PROJ.Shared.Models.DTO.Response
 {
     public class VehicleDetailsGet
     {
-        public int Id { get; set; } 
+        public int IdVehicle { get; set; } 
         public string Manufacturer { get; set; }
         public string Model { get; set; }
         public DateTime ProductionStart { get; set; }

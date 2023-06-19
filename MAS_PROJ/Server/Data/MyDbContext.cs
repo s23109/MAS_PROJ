@@ -9,6 +9,8 @@ namespace MAS_PROJ.Server.Data
         }
         public DbSet<Vehicle> Vehicles { get; set; }
         public DbSet<VehicleSubType> VehicleTypes { get; set; }
+        public DbSet<WaterVehicle> WaterVehicles { get; set; }
+        public DbSet<LandVehicle> LandVehicles { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
