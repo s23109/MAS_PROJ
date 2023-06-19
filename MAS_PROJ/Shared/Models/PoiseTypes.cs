@@ -7,12 +7,5 @@ using System.Threading.Tasks;
 
 namespace MAS_PROJ.Shared.Models
 {
-    [Owned]
-    public class CombustionType
-    {
-        public CombustionTypes CombustionTypes { get; set; }
-
-    }
-
-    public enum CombustionTypes { Diesel, Gasoline }
+    public enum PoiseTypes { Wheels, Tracks, WheelsTracks }
 }

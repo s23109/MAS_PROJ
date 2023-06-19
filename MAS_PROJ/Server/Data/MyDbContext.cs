@@ -75,7 +75,7 @@ namespace MAS_PROJ.Server.Data
                 model.ToTable("LandVehicle");
 
                 model.HasData(
-                    new
+                    new LandVehicle
                     {
                         Name = "Basic",
                         IdSubtype = 1,
@@ -84,7 +84,7 @@ namespace MAS_PROJ.Server.Data
                         EngineTorque = 90
                     },
 
-                    new
+                    new LandVehicle
                     {
                         Name = "Premium",
                         IdSubtype = 2,
@@ -98,26 +98,17 @@ namespace MAS_PROJ.Server.Data
                     new
                     {
                         LandVehicleIdSubtype = 1,
-                        IdVehicle = 1,
-                        FuelSpecifics =
-                        new FuelSpecifics()
-                        {
-                            FuelTypes = new HashSet<FuelType> { new FuelType { FuelTypes = FuelTypes.Combustion } },
-                            CombustionType = new CombustionType { CombustionTypes = CombustionTypes.Diesel },
-                            TankCapacity = 60
-                        },
+                        FuelType =  FuelTypes.Combustion,
+                        CombustionType =CombustionTypes.Diesel,
+                        TankCapacity = 60
+
                     },
                     new
                     {
                         LandVehicleIdSubtype = 2,
-                        IdVehicle = 2,
-                        FuelSpecifics =
-                        new FuelSpecifics()
-                        {
-                            FuelTypes = new HashSet<FuelType> { new FuelType { FuelTypes = FuelTypes.Electric } },
-                            BatteryType = new BatteryType { BatteryTypes = BatteryTypes.LFP },
-                            BatteryCapacity = 120,
-                        },
+                        FuelType = FuelTypes.Electric,
+                        BatteryType = BatteryTypes.LFP,
+                        BatteryCapacity = 120,
                     }
                     );
 
@@ -125,26 +116,16 @@ namespace MAS_PROJ.Server.Data
                     new
                     {
                         LandVehicleIdSubtype = 1,
-                        IdVehicle = 1,
-                        PoiseSpecifics =
-                        new PoiseSpecifics
-                        {
-                            PoiseTypes = new HashSet<PoiseType> { new PoiseType { PoiseTypes = PoiseTypes.Wheels } },
-                            WheelAmount = 4,
-                            WheelWidth = 18
-                        }
+                        PoiseType =PoiseTypes.Wheels,
+                        WheelAmount = 4,
+                        WheelWidth = 18
                     },
                     new
                     {
                         LandVehicleIdSubtype = 2,
-                        IdVehicle = 2,
-                        PoiseSpecifics =
-                        new PoiseSpecifics
-                        {
-                            PoiseTypes = new HashSet<PoiseType> { new PoiseType { PoiseTypes = PoiseTypes.Tracks } },
-                            TrackLength = 20,
-                            TrackWidth = 20
-                        }
+                        PoiseType = PoiseTypes.Tracks,
+                        TrackLength = 20,
+                        TrackWidth = 20
                     }
                     );
             });
@@ -171,54 +152,34 @@ namespace MAS_PROJ.Server.Data
                     );
 
                 model.OwnsOne(e => e.FuelSpecifics).HasData(
-                    new {
+                    new
+                    {
                         WaterVehicleIdSubtype = 3,
-                        IdVehicle = 3,
-                        FuelSpecifics =
-                        new FuelSpecifics
-                        {
-                            FuelTypes = new HashSet<FuelType> { new FuelType { FuelTypes = FuelTypes.Other } },
-                            FuelTypeDescription = "Sail"
-                        }
+                        FuelType = FuelTypes.Other,
+                        FuelTypeDescription = "Sail"
                     },
                     new
                     {
                         WaterVehicleIdSubtype = 4,
-                        IdVehicle = 4,
-                        FuelSpecifics =
-                        new FuelSpecifics
-                        {
-                            FuelTypes = new HashSet<FuelType> { new FuelType { FuelTypes = FuelTypes.Combustion } },
-                            CombustionType = new CombustionType { CombustionTypes = CombustionTypes.Diesel },
-                            TankCapacity = 2000
-                        }
+                        FuelType = FuelTypes.Combustion,
+                        CombustionType = CombustionTypes.Diesel,
+                        TankCapacity = 2000
                     }
                     );
                 model.OwnsOne(e => e.PurposeSpecifics).HasData(
                     new
                     {
                         WaterVehicleIdSubtype = 3,
-                        IdVehicle = 3,
-                        PurposeSpecifics =
-                        new PurposeSpecifics
-                        {
-                            Purposes = new HashSet<PurposeType> { new PurposeType { PurposeTypes = PurposeTypes.Passenger } },
-                            MaxPassengers = 100,
-                            MinLifeBoats = 5
-                        }
-
+                        PurposeType = PurposeTypes.Passenger,
+                        MaxPassengers = 100,
+                        MinLifeBoats = 5
                     },
                     new
                     {
                         WaterVehicleIdSubtype = 4,
-                        IdVehicle = 4,
-                        PurposeSpecifics =
-                        new PurposeSpecifics
-                        {
-                            Purposes = new HashSet<PurposeType> { new PurposeType { PurposeTypes = PurposeTypes.Transport } },
-                            Loads = new HashSet<LoadType> { new LoadType { LoadTypes = LoadTypes.Liquid } },
-                            ShipCapacity = 123
-                        }
+                        PurposeType = PurposeTypes.Transport,
+                        LoadType = LoadTypes.Liquid,
+                        ShipCapacity = 123
                     }
 
 

@@ -8,12 +8,5 @@ using System.Threading.Tasks;
 
 namespace MAS_PROJ.Shared.Models
 {
-    [Owned]
-    public class BatteryType
-    {
-        public BatteryTypes BatteryTypes { get; set; }
-
-    }
-
     public enum BatteryTypes { NMC, LMO, LFP, NCA }
 }

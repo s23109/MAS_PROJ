@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
@@ -12,7 +13,8 @@ namespace MAS_PROJ.Shared.Models
     [Owned]
     public class PoiseSpecifics
     {
-        public HashSet<PoiseType>? PoiseTypes { get; set; } = new HashSet<PoiseType>();
+        [EnumDataType(typeof(PoiseTypes))]
+        public PoiseTypes PoiseType { get; set; }
 
         //Wheel Atributes
         public int? WheelAmount { get; set; }

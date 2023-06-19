@@ -7,11 +7,13 @@ using System.Threading.Tasks;
 
 namespace MAS_PROJ.Shared.Models
 {
-    [Owned]
-    public class LoadType
-    {
-        public LoadTypes LoadTypes { get; set; }
+    public enum FuelTypes { Combustion, 
+        Electric, 
+        Other, 
+        CombustionElectric, 
+        CombustionOther, 
+        ElectricOther, 
+        CombustionElectricOther
     }
 
-    public enum LoadTypes { Liquid, Gas, Solid }
 }

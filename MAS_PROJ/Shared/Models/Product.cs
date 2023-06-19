@@ -14,6 +14,7 @@ namespace MAS_PROJ.Shared.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int IdProduct { get; set; }
 
+        [EnumDataType(typeof(BatteryTypes))]
         public ProductState State { get; set; } = ProductState.InStock;
     }
 
