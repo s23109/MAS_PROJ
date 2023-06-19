@@ -9,8 +9,45 @@
     <span>@VehicleService.Message</span>
 }else
 {
-    <span>Loaded products</span>
+    <table class="table-list">
+        <thead>
+            <tr>
+                <th>Manufacturer</th>
+                <th>Model</th>
+                <th>Produced From</th>
+                <th>Produced Until</th>
+                <th>Notes</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var vehicle in VehicleService.Vehicles)
+            {
+                <tr>
+                    <td>@vehicle.Manufacturer</td>
+                    <td>@vehicle.Model</td>
+                    <td>@vehicle.ProductionStart.ToString("yyyy")</td>
+                    @if (vehicle.ProductionEnd != null)
+                    {
+                        <td>@vehicle.ProductionEnd.GetValueOrDefault().ToString("yyyy")</td>
+                    }
+                    else
+                    {
+                        <td>N/A</td>
+                    }
+                    <td>@vehicle.VehicleNotes</td>
+                    <td><div class="d-flex flex-sm-column align-content-center justify-content-center gap-1 p-1">
+                            <div class="btn-warning px-1"><a href="" class="text-decoration-none text-black align-items-center">Details</a></div>
+                    </div></td>
+                </tr>
+            }
+        </tbody>
+    </table>
 }
+
+<div class="d-flex w-100 justify-content-center my-3">
+    <div class="btn-success px-3 py-1 fs-6"><a href="" class="text-decoration-none text-white">Create New Vehicle</a></div>
+</div>
 
 @code {
     protected override async Task OnInitializedAsync()

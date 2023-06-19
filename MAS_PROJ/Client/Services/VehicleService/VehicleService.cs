@@ -25,6 +25,7 @@ namespace MAS_PROJ.Client.Services.VehicleService
                 Vehicles = response.Data;
             }
 
+
             return response;
         }
     }
