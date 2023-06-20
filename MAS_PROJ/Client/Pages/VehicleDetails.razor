@@ -30,11 +30,11 @@ else
         <div class="d-flex flex-row gap-2">
             <div class="mx-1">
                 <span>Production Start:</span>
-                <span>@vehicle.ProductionStart.ToString("yyyy")</span>
+                <span>@vehicle.ProductionStart.ToString("dd-mm-yyyy")</span>
             </div>
             <div class="mx-1">
                 <span>Production End:</span>
-                <span>@(vehicle.ProductionEnd!=null ?vehicle.ProductionEnd.GetValueOrDefault().ToString("yyyy") : "N/A")</span>
+                <span>@(vehicle.ProductionEnd != null ? vehicle.ProductionEnd.GetValueOrDefault().ToString("dd-mm-yyyy") : "N/A")</span>
             </div>
     </div>
             <div class="d-flex flex-row gap-2">

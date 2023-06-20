@@ -25,10 +25,10 @@
                 <tr>
                     <td>@vehicle.Manufacturer</td>
                     <td>@vehicle.Model</td>
-                    <td>@vehicle.ProductionStart.ToString("yyyy")</td>
+                    <td>@vehicle.ProductionStart.ToString("dd-mm-yyyy")</td>
                     @if (vehicle.ProductionEnd != null)
                     {
-                        <td>@vehicle.ProductionEnd.GetValueOrDefault().ToString("yyyy")</td>
+                        <td>@vehicle.ProductionEnd.GetValueOrDefault().ToString("dd-mm-yyyy")</td>
                     }
                     else
                     {

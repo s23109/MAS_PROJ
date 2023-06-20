@@ -5,14 +5,46 @@
 
 <PageTitle>Vehicle Form</PageTitle>
 <EditForm Model="vehiclePost">
-<InputText id="Manufacturer" @bind-Value="vehiclePost.Manufacturer"></InputText>
+    <h5>Vehicle Data:</h5>
+    <div class="d-flex flex-md-column">
+        <div class="d-flex flex-column w-100">
+            <div class="mt-2 d-flex flex-column border-bottom">
+                <label for="Manufacturer" class="mb-2">Manufacturer</label>
+                <InputText id="Manufacturer" @bind-Value="vehiclePost.Manufacturer" class="mb-2" disabled="@isNewSubtype"></InputText>
+                <ValidationMessage For="@(() => vehiclePost.Manufacturer)" class="mb-2"></ValidationMessage>
+            </div>
+            <div class="mt-2 d-flex flex-column border-bottom">
+                <label for="Model" class="mb-2">Model</label>
+                <InputText id="Model" @bind-Value="vehiclePost.Model" class="mb-2" disabled="@isNewSubtype"></InputText>
+                <ValidationMessage For="@(() => vehiclePost.Model)" class="mb-2"></ValidationMessage>
+            </div>
+            <div class="mt-2 d-flex flex-column border-bottom">
+                <label for="ProductionStart" class="mb-2">Production Start</label>
+                <InputDate Type="InputDateType.Date" id="ProductionStart" @bind-Value="vehiclePost.ProductionStart" class="mb-2" disabled="@isNewSubtype"></InputDate>
+                <ValidationMessage For="@(() => vehiclePost.ProductionStart)" class="mb-2"></ValidationMessage>
+            </div>
+            <div class="mt-2 d-flex flex-column border-bottom">
+                <label for="ProductionEnd" class="mb-2">Production End</label>
+                <InputDate Type="InputDateType.Date" id="ProductionEnd" @bind-Value="vehiclePost.ProductionEnd" class="mb-2" disabled="@isNewSubtype"></InputDate>
+                <ValidationMessage For="@(() => vehiclePost.ProductionEnd)" class="mb-2"></ValidationMessage>
+            </div>
+            <div class="mt-2 d-flex flex-column border-bottom">
+                <label for="VehicleNotes" class="mb-2">VehicleNotes</label>
+                <InputTextArea id="ProductionEnd" @bind-Value="vehiclePost.VehicleNotes" class="mb-2" disabled="@isNewSubtype"></InputTextArea>
+                <ValidationMessage For="@(() => vehiclePost.VehicleNotes)" class="mb-2"></ValidationMessage>
+            </div>
+        </div>
+
+    </div>
+
 </EditForm>
+
 
 @code {
     [Parameter]
     public int Id { get; set; } 
 
-    public bool isNewSubtype { get; set; } = true;
+    public bool isNewSubtype { get; set; } = false;
 
     public VehiclePost vehiclePost = new VehiclePost();
 
@@ -22,7 +54,7 @@
 
         if (response.Success)
         {
-            isNewSubtype = false;
+            isNewSubtype = true;
 
             //bind data to vehiclePost
             vehiclePost.Manufacturer = response.Data.Manufacturer;
@@ -30,7 +62,7 @@
             vehiclePost.ProductionStart = response.Data.ProductionStart;
             vehiclePost.ProductionEnd = response.Data.ProductionEnd;
             vehiclePost.VehicleNotes = response.Data.VehicleNotes;
-
+            
         }
     }
 }
