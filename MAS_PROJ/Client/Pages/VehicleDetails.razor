@@ -8,13 +8,14 @@
 else 
 {
     <div class="d-flex flex-row justify-content-between border-bottom border-dark "> 
-        <h3>@vehicle.Manufacturer @vehicle.Model</h3>
+        <h2>@vehicle.Manufacturer @vehicle.Model</h2>
         <a href="" class="text-decoration-none">
             <div class="btn-success px-1">Add Subtype</div>
         </a>
     </div>
-    <h4 class="mt-2">Basic Info:</h4>
+    <h3 class="mt-2">Basic Info:</h3>
     <div class="d-flex flex-wrap justify-content-around border-bottom border-dark pb-2">
+        <div class="d-flex flex-row gap-2">
             <div class="mx-1">
                 <span>Manufacturer:</span>
                 <span>@vehicle.Manufacturer</span>
@@ -23,31 +24,175 @@ else
                 <span>Model:</span>
                 <span>@vehicle.Model</span>
             </div>
+    </div>
+        <div class="d-flex flex-row gap-2">
             <div class="mx-1">
                 <span>Production Start:</span>
                 <span>@vehicle.ProductionStart.ToString("yyyy")</span>
-            </div
-            <div class="mx-1">
-                <span>Production End:</span>
-                <span>@vehicle.ProductionEnd.GetValueOrDefault().ToString("yyyy")</span>
             </div>
             <div class="mx-1">
+                <span>Production End:</span>
+                <span>@(vehicle.ProductionEnd!=null ?vehicle.ProductionEnd.GetValueOrDefault().ToString("yyyy") : "N/A")</span>
+            </div>
+    </div>
+            <div class="d-flex flex-row gap-2">
+            <div class="mx-1">
                 <span>Notes:</span>
-                <span>@vehicle.VehicleNotes</span>
+                <span>@(vehicle.VehicleNotes!=null? vehicle.VehicleNotes : "N/A")</span>
             </div>
             <div class="mx-1">
                 <span>Amount of Subtypes:</span>
                 <span>@vehicle.VehicleSubType.Count</span>
             </div>
+            </div>
     </div>
-    <h5 class="mt-2">Subtypes:</h5>
+    <h4 class="mt-2">Subtypes:</h4>
     
     @foreach(var subtype in vehicle.VehicleSubType)
     {
+        <div class="border-top pt-1">
+        <h5>Basic Subtype Info:</h5>
         <div class="d-flex flex-wrap justify-content-around border-1 border-dark pb-2">
-            <span>Amount of Subtypes:</span>
-                <span>@vehicle.VehicleSubType.Count</span>
+                <div class="mx-1">
+                    <span>Subtype Name:</span>
+                    <span>@subtype.Name</span>
+                </div>
+                <div class="mx-1">
+                    <span>Subtype Notes:</span>
+                    <span>@(subtype.SubtypeNotes!=null? subtype.SubtypeNotes : "N/A")</span>
+                </div>
+                <div class="mx-1">
+                    <span>Type:</span>
+                    <span>@(subtype.SubType == SubType.Land ? "Land Vehicle" : "Water Vehicle")</span>
+                </div>
+            @if(subtype.SubType == SubType.Land)
+            {
+                <div class="mx-1">
+                    <span>Engine Power:</span>
+                    <span>@subtype.EnginePower PS</span>
+                </div>
+                <div class="mx-1">
+                    <span>Engine Torque:</span>
+                    <span>@subtype.EngineTorque kW</span>
+                </div>
+            }
+            else
+            {
+                <div class="mx-1">
+                    <span>Min Crew:</span>
+                    <span>@subtype.MinCrew</span>
+                </div>
+            }
         </div>
+            <h5>Fuel Details:</h5>
+            <div class="d-flex flex-wrap justify-content-around border-1 border-dark pb-2">
+                <div class="mx-1">
+                    <span>Fuel Type:</span>
+                    <span>@subtype.FuelSpecifics.FuelType</span>
+                </div>
+                @if (subtype.FuelSpecifics.FuelType is FuelTypes.Combustion or FuelTypes.CombustionElectric or FuelTypes.CombustionOther or FuelTypes.CombustionElectricOther)
+                {
+                    <div class="mx-1">
+                        <span>Tank Capacity:</span>
+                        <span>@subtype.FuelSpecifics.TankCapacity</span>
+                    </div>
+                    <div class="mx-1">
+                        <span>Combustion Fuel Type:</span>
+                        <span>@subtype.FuelSpecifics.CombustionType</span>
+                    </div>
+                }
+
+                @if (subtype.FuelSpecifics.FuelType is FuelTypes.Electric or FuelTypes.CombustionElectric or FuelTypes.ElectricOther or FuelTypes.CombustionElectricOther)
+                {
+                    <div class="mx-1">
+                        <span>Battery Capacity:</span>
+                        <span>@subtype.FuelSpecifics.BatteryCapacity</span>
+                    </div>
+                    <div class="mx-1">
+                        <span>Battery Type:</span>
+                        <span>@subtype.FuelSpecifics.BatteryType</span>
+                    </div>
+                }
+
+                @if (subtype.FuelSpecifics.FuelType is FuelTypes.Other or FuelTypes.CombustionOther or FuelTypes.ElectricOther or FuelTypes.CombustionElectricOther)
+                {
+                    <div class="mx-1">
+                        <span>Fuel Type Description:</span>
+                        <span>@subtype.FuelSpecifics.FuelTypeDescription</span>
+                    </div>
+                }
+
+            </div>
+            @if (subtype.SubType == SubType.Land)
+            {
+            <h5>Poise Details:</h5>
+                <div class="d-flex flex-wrap justify-content-around border-1 border-dark pb-2">
+                    <div class="mx-1">
+                        <span>Poise Type:</span>
+                        <span>@subtype.PoiseSpecifics.PoiseType</span>
+                    </div>
+                    @if(subtype.PoiseSpecifics.PoiseType is PoiseTypes.Wheels or PoiseTypes.WheelsTracks)
+                    {
+                        <div class="mx-1">
+                            <span>Wheel Amount:</span>
+                            <span>@subtype.PoiseSpecifics.WheelAmount</span>
+                        </div>
+                        <div class="mx-1">
+                            <span>Wheel Width:</span>
+                            <span>@subtype.PoiseSpecifics.WheelWidth</span>
+                        </div>
+                    }
+                    else if (subtype.PoiseSpecifics.PoiseType is PoiseTypes.Tracks or PoiseTypes.WheelsTracks)
+                    {
+                        <div class="mx-1">
+                            <span>Track Length:</span>
+                            <span>@subtype.PoiseSpecifics.TrackLength</span>
+                        </div>
+                        <div class="mx-1">
+                            <span>Track Width:</span>
+                            <span>@subtype.PoiseSpecifics.TrackWidth</span>
+                        </div>
+                    }
+
+                </div>
+
+        
+            }
+            else
+            {
+                <h5>Purpose Details:</h5>
+                <div class="d-flex flex-wrap justify-content-around border-1 border-dark pb-2">
+                    <div class="mx-1">
+                        <span>Purpose Type:</span>
+                        <span>@subtype.PurposeSpecifics.PurposeType</span>
+                    </div>
+                    @if (subtype.PurposeSpecifics.PurposeType is PurposeTypes.Passenger or PurposeTypes.TransportPassenger)
+                    {
+                        <div class="mx-1">
+                            <span>Min LifeBoats:</span>
+                            <span>@subtype.PurposeSpecifics.MinLifeBoats</span>
+                        </div>
+                        <div class="mx-1">
+                            <span>Max Passengers:</span>
+                            <span>@subtype.PurposeSpecifics.MaxPassengers</span>
+                        </div>
+                    }
+                    else if (subtype.PurposeSpecifics.PurposeType is PurposeTypes.Transport or PurposeTypes.TransportPassenger)
+                    {
+                        <div class="mx-1">
+                            <span>Load Type:</span>
+                            <span>@subtype.PurposeSpecifics.LoadType</span>
+                        </div>
+                        <div class="mx-1">
+                            <span>Ship Capacity:</span>
+                            <span>@subtype.PurposeSpecifics.ShipCapacity</span>
+                        </div>
+                    }
+
+                </div>
+            }
+        </div>
+        @*End Loop Subtype*@
     }
 }
 

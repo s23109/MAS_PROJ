@@ -13,6 +13,10 @@ namespace MAS_PROJ.Shared.Models.DTO.Response
         public string? SubtypeNotes { get; set; }
         public SubType SubType { get; set; }
 
+        public int? EnginePower { get; set; }
+        public int? EngineTorque { get; set; }
+        public int? MinCrew { get; set; }
+
         //Complex Attributes
         public FuelSpecifics? FuelSpecifics { get; set; }
         public PoiseSpecifics? PoiseSpecifics { get; set; }

@@ -33,7 +33,8 @@ namespace MAS_PROJ.Server.Services.VehicleService
                         SubtypeNotes = e.SubtypeNotes,
                         SubType = SubType.Water,
                         FuelSpecifics = e.FuelSpecifics,
-                        PurposeSpecifics = e.PurposeSpecifics
+                        PurposeSpecifics = e.PurposeSpecifics,
+                        MinCrew = e.MinCrew
                     })
                     .ToListAsync();
 
@@ -46,7 +47,9 @@ namespace MAS_PROJ.Server.Services.VehicleService
                         SubtypeNotes = e.SubtypeNotes,
                         SubType = SubType.Land,
                         FuelSpecifics = e.FuelSpecifics,
-                        PoiseSpecifics = e.PoiseSpecifics
+                        PoiseSpecifics = e.PoiseSpecifics,
+                        EnginePower = e.EnginePower,
+                        EngineTorque = e.EngineTorque
                     })
                     .ToListAsync();
                 var allSubtypes = waterSubTypes.Concat(landSubTypes).ToList();
