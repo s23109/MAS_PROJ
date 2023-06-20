@@ -16,10 +16,51 @@ namespace MAS_PROJ.Client.Services.VehicleService
         public List<VehicleGet> Vehicles { get; set; } = new List<VehicleGet>();
         public string Message { get; set; } = "Loading Vehicles";
 
+        public async Task<ServiceResponse<VehicleGet>> GetVehicleByIdAsync(int Id)
+        {
+            var response = new ServiceResponse<VehicleGet>();
+
+            if (Vehicles.Count != 0 && Vehicles.First(x => x.Id == Id) != null)
+            {
+                response.Data = Vehicles.First(x => x.Id == Id);
+
+            }
+            else
+            {
+                try
+                {
+                    response = await _httpClient.GetFromJsonAsync<ServiceResponse<VehicleGet>>($"/api/Vehicle/{Id}");
+                }
+                catch
+                {
+                    //If 404
+                    return new ServiceResponse<VehicleGet>
+                    {
+                        Success = false,
+                        Message = "Vehicle not found"
+                    };
+                }
+            }
+
+            return response;
+        }
+
         public async Task<ServiceResponse<VehicleDetailsGet>> GetVehicleDetailsAsync(int Id)
         {
-            var response = await _httpClient.GetFromJsonAsync<ServiceResponse<VehicleDetailsGet>>($"/api/Vehicle/{Id}");
-            return response;
+            try
+            {
+                var response = await _httpClient.GetFromJsonAsync<ServiceResponse<VehicleDetailsGet>>($"/api/Vehicle/Details/{Id}");
+                return response;
+            }
+            catch
+            {
+                //If 404
+                return new ServiceResponse<VehicleDetailsGet>
+                {
+                    Success = false,
+                    Message = "Vehicle not found"
+                };
+            }
         }
 
         public async Task<ServiceResponse<List<VehicleGet>>> GetVehiclesAsync()

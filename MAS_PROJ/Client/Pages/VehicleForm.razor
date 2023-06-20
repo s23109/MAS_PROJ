@@ -1,0 +1,36 @@
+﻿@page "/Vehicles/Create"
+@page "/Vehicles/Create/{Id:int}"
+@inject IVehicleService VehicleService
+@inject NavigationManager NavigationManager
+
+<PageTitle>Vehicle Form</PageTitle>
+<EditForm Model="vehiclePost">
+<InputText id="Manufacturer" @bind-Value="vehiclePost.Manufacturer"></InputText>
+</EditForm>
+
+@code {
+    [Parameter]
+    public int Id { get; set; } 
+
+    public bool isNewSubtype { get; set; } = true;
+
+    public VehiclePost vehiclePost = new VehiclePost();
+
+    protected override async Task OnParametersSetAsync()
+    {
+        var response = await VehicleService.GetVehicleByIdAsync(Id);
+
+        if (response.Success)
+        {
+            isNewSubtype = false;
+
+            //bind data to vehiclePost
+            vehiclePost.Manufacturer = response.Data.Manufacturer;
+            vehiclePost.Model = response.Data.Model;
+            vehiclePost.ProductionStart = response.Data.ProductionStart;
+            vehiclePost.ProductionEnd = response.Data.ProductionEnd;
+            vehiclePost.VehicleNotes = response.Data.VehicleNotes;
+
+        }
+    }
+}

@@ -7,6 +7,8 @@ namespace MAS_PROJ.Client.Services.VehicleService
     {
         Task<ServiceResponse<List<VehicleGet>>> GetVehiclesAsync();
 
+        Task<ServiceResponse<VehicleGet>> GetVehicleByIdAsync(int Id);
+
         Task<ServiceResponse<VehicleDetailsGet>> GetVehicleDetailsAsync(int Id);
 
         List<VehicleGet> Vehicles { get; set; }

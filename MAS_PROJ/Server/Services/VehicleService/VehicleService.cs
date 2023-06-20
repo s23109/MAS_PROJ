@@ -1,4 +1,5 @@
 ﻿using MAS_PROJ.Server.Data;
+using MAS_PROJ.Shared.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace MAS_PROJ.Server.Services.VehicleService
@@ -14,7 +15,38 @@ namespace MAS_PROJ.Server.Services.VehicleService
             _configuration = configuration;
         }
 
-        public async Task<ServiceResponse<VehicleDetailsGet>> GetVehicleByIdAsync(int IdVehicle)
+        public async Task<ServiceResponse<VehicleGet>> GetVehicleByIdAsync(int IdVehicle)
+        {
+            var response = new ServiceResponse<VehicleGet>();
+            var vehicleExists = await _dbContext.Vehicles.AnyAsync(e => e.IdVehicle == IdVehicle);
+
+            if (!vehicleExists)
+            {
+                response.Success = false;
+                response.Message = "Vehicle with this ID does not exist";
+            }
+            else
+            {
+                var vehicle = await _dbContext.Vehicles.AsNoTracking()
+                    .Where(e => e.IdVehicle == IdVehicle)
+                    .Select(e => new VehicleGet
+                    {
+                        Id = e.IdVehicle,
+                        Manufacturer = e.Manufacturer,
+                        Model = e.Model,
+                        ProductionStart = e.ProductionStart,
+                        ProductionEnd = e.ProductionEnd,
+                        VehicleNotes = e.VehicleNotes
+                    }).FirstOrDefaultAsync();
+                response.Data = vehicle;
+            }
+
+            return response;
+
+
+        }
+
+        public async Task<ServiceResponse<VehicleDetailsGet>> GetVehicleDetailsByIdAsync(int IdVehicle)
         {
             var response = new ServiceResponse<VehicleDetailsGet>();
             var vehicleExists = await _dbContext.Vehicles.AnyAsync(e => e.IdVehicle == IdVehicle);

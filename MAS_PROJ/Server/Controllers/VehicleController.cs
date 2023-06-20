@@ -33,6 +33,22 @@ namespace MAS_PROJ.Server.Controllers
             {
                 return NotFound(result);
             }
+
+        }
+
+        [HttpGet("Details/{IdVehicle}")]
+        public async Task<ActionResult<ServiceResponse<VehicleDetailsGet>>> GetVehicleDetailsById(int IdVehicle)
+        {
+            var result = await _vehicleService.GetVehicleDetailsByIdAsync(IdVehicle);
+
+            if (result.Data != null)
+            {
+                return Ok(result);
+            }
+            else
+            {
+                return NotFound(result);
+            }
             
         }
     }

@@ -1,6 +1,8 @@
 ﻿@page "/Vehicles/{Id:int}"
 @inject IVehicleService VehicleService
 
+<PageTitle>Vehicle Details</PageTitle>
+
 @if(vehicle == null)
 {
     <span>@message</span>

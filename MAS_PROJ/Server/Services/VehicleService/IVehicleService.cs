@@ -4,6 +4,8 @@
     {
         Task<ServiceResponse<List<VehicleGet>>> GetVehiclesAsync();
 
-        Task<ServiceResponse<VehicleDetailsGet>> GetVehicleByIdAsync(int Id);
+        Task<ServiceResponse<VehicleDetailsGet>> GetVehicleDetailsByIdAsync(int IdVehicle);
+
+        Task<ServiceResponse<VehicleGet>> GetVehicleByIdAsync(int IdVehicle);
     }
 }
