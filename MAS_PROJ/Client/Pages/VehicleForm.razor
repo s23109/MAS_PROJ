@@ -4,10 +4,12 @@
 @inject NavigationManager NavigationManager
 
 <PageTitle>Vehicle Form</PageTitle>
-<EditForm Model="vehiclePost">
+
+<EditForm Model="vehiclePost" class="mb-4">
     <h5>Vehicle Data:</h5>
-    <div class="d-flex flex-md-column">
+    <div class="d-flex flex-md-column mb-2">
         <div class="d-flex flex-column w-100">
+
             <div class="mt-2 d-flex flex-column border-bottom">
                 <label for="Manufacturer" class="mb-2">Manufacturer</label>
                 <InputText id="Manufacturer" @bind-Value="vehiclePost.Manufacturer" class="mb-2" disabled="@isNewSubtype"></InputText>
@@ -28,15 +30,69 @@
                 <InputDate Type="InputDateType.Date" id="ProductionEnd" @bind-Value="vehiclePost.ProductionEnd" class="mb-2" disabled="@isNewSubtype"></InputDate>
                 <ValidationMessage For="@(() => vehiclePost.ProductionEnd)" class="mb-2"></ValidationMessage>
             </div>
-            <div class="mt-2 d-flex flex-column border-bottom">
+            <div class="mt-2 d-flex flex-column">
                 <label for="VehicleNotes" class="mb-2">VehicleNotes</label>
                 <InputTextArea id="ProductionEnd" @bind-Value="vehiclePost.VehicleNotes" class="mb-2" disabled="@isNewSubtype"></InputTextArea>
                 <ValidationMessage For="@(() => vehiclePost.VehicleNotes)" class="mb-2"></ValidationMessage>
             </div>
-        </div>
 
+        </div>
     </div>
 
+    <h5 class="border-top border-dark pt-2">Subtype Data:</h5>
+    <div class="d-flex flex-md-column mb-3">
+        <div class="mt-2 d-flex flex-column border-bottom">
+            <label for="SubtypeName" class="mb-2">Subtype Name</label>
+            <InputText id="SubtypeName" @bind-Value="vehiclePost.Name" class="mb-2"></InputText>
+            <ValidationMessage For="@(() => vehiclePost.Name)" class="mb-2"></ValidationMessage>
+        </div>
+        <div class="mt-2 d-flex flex-column border-bottom">
+            <label for="SubtypeNotes" class="mb-2">Subtype Notes</label>
+            <InputTextArea id="SubtypeNotes" @bind-Value="vehiclePost.SubtypeNotes" class="mb-2"></InputTextArea>
+            <ValidationMessage For="@(() => vehiclePost.SubtypeNotes)" class="mb-2"></ValidationMessage>
+        </div>
+
+        <div class="mt-2 d-flex flex-column">
+            <label for="SubtypeType" class="mb-2">Subtype Type</label>
+            <InputSelect id="SubtypeType" ValueExpression="@(() => vehiclePost.SubType )" Value="@vehiclePost.SubType" ValueChanged="@((SubType subType) => HandleVehicleSubType(subType))">
+                <option selected value="99" >Select Vehicle Type...</option>
+                <option value="@SubType.Land" >Land Vehicle</option>
+                <option value="@SubType.Water" >Water Vehicle</option>
+            </InputSelect>
+            <ValidationMessage For="@(() => vehiclePost.VehicleNotes)" class="mb-2"></ValidationMessage>
+        </div>
+    </div>
+
+    <h5 class="border-top border-dark pt-2 @(hideSubtype? "hidden" : string.Empty)" >Subtype Type Specifics:</h5>
+    <div class="d-flex flex-md-column mb-2 @(hideSubtype? "hidden" : string.Empty)" >
+
+        <div class="mt-2 d-flex flex-column border-bottom">
+                <label for="EnginePower" class="mb-2">Engine Power</label>
+                <InputNumber id="EnginePower" @bind-Value="vehiclePost.EnginePower" class="mb-2"></InputNumber>
+                <ValidationMessage For="@(() => vehiclePost.EnginePower)" class="mb-2"></ValidationMessage>
+            </div>
+            <div class="mt-2 d-flex flex-column border-bottom" >
+                <label for="EngineTorque" class="mb-2">Engine Torque</label>
+                <InputNumber id="EngineTorque" @bind-Value="vehiclePost.EngineTorque" class="mb-2"></InputNumber>
+                <ValidationMessage For="@(() => vehiclePost.EngineTorque)" class="mb-2"></ValidationMessage>
+            </div>
+            <div class="mt-2 d-flex flex-column border-bottom" >
+                <label for="MinCrew" class="mb-2">Min Crew</label>
+                <InputNumber id="MinCrew" @bind-Value="vehiclePost.MinCrew" class="mb-2"></InputNumber>
+                <ValidationMessage For="@(() => vehiclePost.MinCrew)" class="mb-2"></ValidationMessage>
+            </div>
+
+        </div>
+
+        <h5 class="border-top border-dark pt-2">Fuel Specifics</h5>
+
+
+
+    
+
+        
+    
+    
 </EditForm>
 
 
@@ -44,7 +100,16 @@
     [Parameter]
     public int Id { get; set; } 
 
-    public bool isNewSubtype { get; set; } = false;
+    //Booleans to handle element display status 
+    //basic
+    protected bool isNewSubtype { get; set; } = false;
+    //typeOfVehicle
+    public bool hideSubtype { get; set; } = true;
+    public bool isLandVehicle { get; set; } = false;
+    public bool isWaterVehicle { get; set; } = false;
+
+
+
 
     public VehiclePost vehiclePost = new VehiclePost();
 
@@ -52,7 +117,7 @@
     {
         var response = await VehicleService.GetVehicleByIdAsync(Id);
 
-        if (response.Success)
+        if (response.Success && response.Data != null)
         {
             isNewSubtype = true;
 
@@ -62,7 +127,38 @@
             vehiclePost.ProductionStart = response.Data.ProductionStart;
             vehiclePost.ProductionEnd = response.Data.ProductionEnd;
             vehiclePost.VehicleNotes = response.Data.VehicleNotes;
-            
+
         }
     }
+
+
+    private async Task HandleVehicleSubType(SubType value)
+    {
+
+        vehiclePost.SubType = value;
+        isLandVehicle = false;
+        isWaterVehicle = false;
+        hideSubtype = true;
+
+        switch (vehiclePost.SubType)
+        {
+            case SubType.Land:
+                {
+                    isLandVehicle = true;
+                    hideSubtype = false;
+                    break;
+                }
+            case SubType.Water:
+                {
+                    isWaterVehicle = true;
+                    hideSubtype = false;
+                    break;
+                }
+        }
+
+        await InvokeAsync(StateHasChanged);
+    }
+
+
+
 }
