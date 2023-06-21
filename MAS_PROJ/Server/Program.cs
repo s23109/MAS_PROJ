@@ -1,6 +1,7 @@
 global using MAS_PROJ.Shared;
 global using MAS_PROJ.Shared.Models;
 global using MAS_PROJ.Shared.Models.DTO.Response;
+global using MAS_PROJ.Shared.Models.DTO.Request;
 using MAS_PROJ.Server.Data;
 using MAS_PROJ.Server.Services.VehicleService;
 using Microsoft.AspNetCore.ResponseCompression;

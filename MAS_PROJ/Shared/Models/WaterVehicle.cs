@@ -9,7 +9,7 @@ namespace MAS_PROJ.Shared.Models
 {
     public class WaterVehicle:VehicleSubType
     {
-        public int MinCrew { get; set; }
+        public int? MinCrew { get; set; }
         
         public PurposeSpecifics PurposeSpecifics { get; set; }
         
