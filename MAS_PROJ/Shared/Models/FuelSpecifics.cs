@@ -1,12 +1,5 @@
-﻿using MAS_PROJ.Shared.Models.DTO.Response;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
+﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MAS_PROJ.Shared.Models
 {
@@ -20,7 +13,7 @@ namespace MAS_PROJ.Shared.Models
 
         //Combustion Attributes
         public int? TankCapacity { get; set; }
-                
+
         [EnumDataType(typeof(CombustionTypes))]
         [IsValidCombustionType]
         public CombustionTypes? CombustionType { get; set; }
@@ -32,7 +25,7 @@ namespace MAS_PROJ.Shared.Models
         public BatteryTypes? BatteryType { get; set; }
 
         //Other Attributes 
-        
+
         public string? FuelTypeDescription { get; set; }
 
     }
@@ -71,7 +64,8 @@ namespace MAS_PROJ.Shared.Models
 
             if (value == null) return new ValidationResult("Field is required");
 
-            if ((Enum.IsDefined(typeof(CombustionTypes), value))){
+            if ((Enum.IsDefined(typeof(CombustionTypes), value)))
+            {
 
                 if (value is CombustionTypes.NotDefined)
                 {

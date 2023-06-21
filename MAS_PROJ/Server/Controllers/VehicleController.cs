@@ -49,7 +49,37 @@ namespace MAS_PROJ.Server.Controllers
             {
                 return NotFound(result);
             }
-            
+
+        }
+
+        [HttpPost("Create")]
+        public async Task<ActionResult<VehiclePost>> CreateNewVehicle(VehiclePost vehicle)
+        {
+            var result = await _vehicleService.CreateVehicleAsync(vehicle);
+
+            if (!result.Success)
+            {
+                return BadRequest(result);
+            }
+            else
+            {
+                return Ok(result);
+            }
+        }
+
+
+        [HttpPost("Create/{Id}")]
+        public async Task<ActionResult<VehiclePost>> AddSubtypeToExisting(VehiclePost vehicle, int Id)
+        {
+            var result = await _vehicleService.AddVehicleSubTypeAsync(vehicle, Id);
+
+            if (!result.Success)
+            {
+                return BadRequest(result);
+            }else
+            {
+                return Ok(result);
+            }
         }
     }
 }

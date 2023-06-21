@@ -2,10 +2,11 @@
 @page "/Vehicles/Create/{Id:int}"
 @inject IVehicleService VehicleService
 @inject NavigationManager NavigationManager
+@inject IJSRuntime JsRuntime
 
 <PageTitle>Vehicle Form</PageTitle>
 
-<EditForm Model="vehiclePost" class="mb-4">
+<EditForm Model="vehiclePost" class="mb-4" OnValidSubmit="HandleSubmit">
     <DataAnnotationsValidator/>
     <h5>Vehicle Data:</h5>
     <div class="d-flex flex-md-column mb-2">
@@ -69,6 +70,7 @@
             <ValidationMessage For="@(() => vehiclePost.SubType)" class="mb-2"></ValidationMessage>
         </div>
     </div>
+    
     @if (vehiclePost.SubType is SubType.Land or SubType.Water)
     {
         <h5 class="border-top border-dark pt-2">Subtype Type Specifics:</h5>
@@ -105,16 +107,18 @@
             <div class="d-flex flex-md-row mb-2 justify-content-around w-100">
                 <div class="mt-2 d-flex flex-column border-bottom">
                 <label for="fuelCombustion" class="mb-2">Combustion</label>
-                <InputCheckbox id="fuelCombustion" @bind-Value="fuelCombustion" class="mb-2"></InputCheckbox>
+                <InputCheckbox id="fuelCombustion" @bind-Value="fuelCombustion" class="mb-2" @oninput="HandleFuel"></InputCheckbox>
                 </div>
                 <div class="mt-2 d-flex flex-column border-bottom">
                 <label for="fuelElectric" class="mb-2">Electric</label>
-                <InputCheckbox id="fuelElectric" @bind-Value="fuelElectric" class="mb-2"></InputCheckbox>
+                    <InputCheckbox id="fuelElectric" @bind-Value="fuelElectric" class="mb-2" @oninput="HandleFuel"></InputCheckbox>
                 </div>
                 <div class="mt-2 d-flex flex-column border-bottom">
                 <label for="fuelOther" class="mb-2">Other</label>
-                <InputCheckbox id="fuelOther" @bind-Value="fuelOther" class="mb-2"></InputCheckbox>
+                    <InputCheckbox id="fuelOther" @bind-Value="fuelOther" class="mb-2" @oninput="HandleFuel"></InputCheckbox>
                 </div>
+
+                <ValidationMessage For="@(() => vehiclePost.FuelSpecifics.FuelType )" class="mb-2"></ValidationMessage>
             </div>
             @if (fuelCombustion)
             {
@@ -174,12 +178,13 @@
                 <div class="d-flex flex-md-row mb-2 justify-content-around w-100">
                     <div class="mt-2 d-flex flex-column border-bottom">
                         <label for="poiseWheels" class="mb-2">Wheels</label>
-                        <InputCheckbox id="poiseWheels" @bind-Value="poiseWheels" class="mb-2"></InputCheckbox>
+                        <InputCheckbox id="poiseWheels" @bind-Value="poiseWheels" class="mb-2" @oninput="HandlePoises"></InputCheckbox>
                     </div>
                     <div class="mt-2 d-flex flex-column border-bottom">
                         <label for="poiseTracks" class="mb-2">Tracks</label>
-                        <InputCheckbox id="poiseTracks" @bind-Value="poiseTracks" class="mb-2"></InputCheckbox>
+                        <InputCheckbox id="poiseTracks" @bind-Value="poiseTracks" class="mb-2" @oninput="HandlePoises"></InputCheckbox>
                     </div>
+                    <ValidationMessage For="@(() => vehiclePost.PoiseSpecifics.PoiseType)"></ValidationMessage>
                 </div>
 
                 @if (poiseWheels)
@@ -220,12 +225,13 @@
                 <div class="d-flex flex-md-row mb-2 justify-content-around w-100">
                     <div class="mt-2 d-flex flex-column border-bottom">
                         <label for="purposeTransport" class="mb-2">Transport</label>
-                        <InputCheckbox id="purposeTransport" @bind-Value="purposeTransport" class="mb-2"></InputCheckbox>
+                        <InputCheckbox id="purposeTransport" @bind-Value="purposeTransport" class="mb-2" @oninput="HandlePurpose"></InputCheckbox>
                     </div>
                     <div class="mt-2 d-flex flex-column border-bottom">
                         <label for="purposePassenger" class="mb-2">Passenger</label>
-                        <InputCheckbox id="purposePassenger" @bind-Value="purposePassenger" class="mb-2"></InputCheckbox>
+                        <InputCheckbox id="purposePassenger" @bind-Value="purposePassenger" class="mb-2" @oninput="HandlePurpose"></InputCheckbox>
                     </div>
+                    <ValidationMessage For="@(() => vehiclePost.PurposeSpecifics.PurposeType )"></ValidationMessage>
                 </div>
 
                 @if (purposePassenger)
@@ -265,14 +271,11 @@
         }
     }
 
-
-
-
+    <div class="mt-2 d-flex flex-row justify-content-around">
+        <button type="submit" class="btn btn-primary">Send</button>
+    </div>
     
 
-        
-    
-    
 </EditForm>
 
 
@@ -296,15 +299,19 @@
 
 
 
-    public VehiclePost vehiclePost = new VehiclePost();
+    public VehiclePost vehiclePost = new VehiclePost()
+    {
+            FuelSpecifics = new FuelSpecifics(),
+            PoiseSpecifics = new PoiseSpecifics(),
+            PurposeSpecifics = new PurposeSpecifics()
+    };
+
 
     protected override async Task OnParametersSetAsync()
     {
+        if (Id!= null)
+        {
         var response = await VehicleService.GetVehicleByIdAsync(Id);
-
-        vehiclePost.FuelSpecifics = new FuelSpecifics();
-        vehiclePost.PoiseSpecifics = new PoiseSpecifics();
-        vehiclePost.PurposeSpecifics = new PurposeSpecifics();
 
         if (response.Success && response.Data != null)
         {
@@ -317,13 +324,100 @@
             vehiclePost.ProductionEnd = response.Data.ProductionEnd;
             vehiclePost.VehicleNotes = response.Data.VehicleNotes;
 
-            
+        }
         }
 
-        
+    }
+
+    protected void HandlePoises()
+    {
+        var poises = new Dictionary<Tuple<bool, bool>, PoiseTypes>()
+        {
+            {Tuple.Create(false,false), PoiseTypes.NotDefined},
+            {Tuple.Create(false,true), PoiseTypes.Wheels},
+            {Tuple.Create(true,false), PoiseTypes.Tracks},
+            {Tuple.Create(true,true), PoiseTypes.WheelsTracks}
+        };
+
+        var currPoise = Tuple.Create(poiseTracks, poiseWheels);
+
+        vehiclePost.PoiseSpecifics.PoiseType = poises[currPoise];
+    }
+
+    protected void HandlePurpose()
+    {
+        var purposes = new Dictionary<Tuple<bool, bool>, PurposeTypes>()
+        {
+            {Tuple.Create(false,false), PurposeTypes.NotDefined},
+            {Tuple.Create(false,true), PurposeTypes.Transport},
+            {Tuple.Create(true,false), PurposeTypes.Passenger},
+            {Tuple.Create(true,true), PurposeTypes.TransportPassenger},
+        };
+
+        var currPurpose = Tuple.Create(purposePassenger, purposeTransport);
+
+        vehiclePost.PurposeSpecifics.PurposeType = purposes[currPurpose];
+    }
+
+    protected void HandleFuel()
+    {
+        var fuels = new Dictionary<Tuple<bool, bool, bool>, FuelTypes>()
+        {
+            {Tuple.Create(false,false,false),FuelTypes.NotDefined},
+            {Tuple.Create(false,false,true),FuelTypes.Combustion},
+            {Tuple.Create(false,true,false),FuelTypes.Electric},
+            {Tuple.Create(true,false,false),FuelTypes.Other},
+            {Tuple.Create(false,true,true),FuelTypes.CombustionElectric},
+            {Tuple.Create(true,false,true),FuelTypes.CombustionOther},
+            {Tuple.Create(true,true,false),FuelTypes.ElectricOther},
+            {Tuple.Create(true,true,true),FuelTypes.CombustionElectricOther},
+
+        };
+
+        var currFuel = Tuple.Create(fuelOther, fuelElectric, fuelCombustion);
+
+        vehiclePost.FuelSpecifics.FuelType = fuels[currFuel];
     }
 
 
+    protected async Task HandleSubmit()
+    {
+        //first - handle enum 
 
+        //Poise:
+        HandlePoises();
+
+        //Purpose:
+        HandlePurpose();
+
+        //Fuel:
+        HandleFuel();
+
+        //then send ...
+
+        var result = new ServiceResponse<VehiclePost>();
+
+        if (isNewSubtype)
+        {
+            //create only subtype 
+            result =  await VehicleService.AddVehicleSubTypeAsync(vehiclePost,Id);
+        }
+        else
+        {
+            //create vehicle + subtype 
+            result = await VehicleService.CreateVehicleAsync(vehiclePost);
+        }
+
+        if (result.Success)
+        {
+            await JsRuntime.InvokeVoidAsync("alert", "Successfully Added Object");
+            NavigationManager.NavigateTo("/");
+        }
+        else
+        {
+            await JsRuntime.InvokeVoidAsync("alert", result.Data);
+        }
+
+    }
 
 }

@@ -1,4 +1,5 @@
 ﻿using MAS_PROJ.Shared;
+using MAS_PROJ.Shared.Models.DTO.Request;
 using MAS_PROJ.Shared.Models.DTO.Response;
 using System.Net.Http.Json;
 
@@ -15,6 +16,43 @@ namespace MAS_PROJ.Client.Services.VehicleService
 
         public List<VehicleGet> Vehicles { get; set; } = new List<VehicleGet>();
         public string Message { get; set; } = "Loading Vehicles";
+
+        public async Task<ServiceResponse<VehiclePost>> AddVehicleSubTypeAsync(VehiclePost newVehicle, int VehicleId)
+        {
+            var request = await _httpClient.PostAsJsonAsync($"/api/Vehicles/Create/{VehicleId}", newVehicle);
+            try
+            {
+                var response = await request.Content.ReadFromJsonAsync<ServiceResponse<VehiclePost>>();
+                return response;
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResponse<VehiclePost>()
+                {
+                    Success = false,
+                    Message = ex.Message
+                };
+            }
+            
+        }
+
+        public async Task<ServiceResponse<VehiclePost>> CreateVehicleAsync(VehiclePost newVehicle)
+        {
+            var request = await _httpClient.PostAsJsonAsync("/api/Vehicles/Create", newVehicle);
+            try
+            {
+                var response = await request.Content.ReadFromJsonAsync<ServiceResponse<VehiclePost>>();
+                return response;
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResponse<VehiclePost>()
+                {
+                    Success = false,
+                    Message = ex.Message
+                };
+            }
+        }
 
         public async Task<ServiceResponse<VehicleGet>> GetVehicleByIdAsync(int Id)
         {

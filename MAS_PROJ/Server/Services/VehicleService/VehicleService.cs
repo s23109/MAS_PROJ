@@ -48,7 +48,7 @@ namespace MAS_PROJ.Server.Services.VehicleService
                     response.Success = true;
                     response.Data = newVehicle;
                 }
-                else
+                else if (newVehicle.SubType == SubType.Water)
                 {
                     var subType = new WaterVehicle
                     {
@@ -112,7 +112,7 @@ namespace MAS_PROJ.Server.Services.VehicleService
                         response.Success = true;
                         response.Data = newVehicle;
                     }
-                    else
+                    else if (newVehicle.SubType == SubType.Water)
                     {
                         var subType = new WaterVehicle
                         {
