@@ -23,5 +23,5 @@ namespace MAS_PROJ.Shared.Models.DTO.Response
         public PurposeSpecifics? PurposeSpecifics { get; set; }
     }
 
-    public enum SubType { Land, Water }
+    public enum SubType { NotDefined , Land , Water }
 }

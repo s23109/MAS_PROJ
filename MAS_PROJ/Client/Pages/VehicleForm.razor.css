@@ -1,3 +1,8 @@
 ﻿.hidden {
     display: none;
 }
+
+test {
+    border-color: red !important;
+    border: 2px solid;
+}

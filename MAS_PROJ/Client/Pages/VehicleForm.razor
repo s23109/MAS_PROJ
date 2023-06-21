@@ -6,6 +6,8 @@
 <PageTitle>Vehicle Form</PageTitle>
 
 <EditForm Model="vehiclePost" class="mb-4">
+    <DataAnnotationsValidator/>
+    <ValidationSummary/>
     <h5>Vehicle Data:</h5>
     <div class="d-flex flex-md-column mb-2">
         <div class="d-flex flex-column w-100">
@@ -22,13 +24,19 @@
             </div>
             <div class="mt-2 d-flex flex-column border-bottom">
                 <label for="ProductionStart" class="mb-2">Production Start</label>
-                <InputDate Type="InputDateType.Date" id="ProductionStart" @bind-Value="vehiclePost.ProductionStart" class="mb-2" disabled="@isNewSubtype"></InputDate>
+                <InputDate  id="ProductionStart" @bind-Value="vehiclePost.ProductionStart" class="mb-2" disabled="@isNewSubtype"></InputDate>
                 <ValidationMessage For="@(() => vehiclePost.ProductionStart)" class="mb-2"></ValidationMessage>
             </div>
             <div class="mt-2 d-flex flex-column border-bottom">
                 <label for="ProductionEnd" class="mb-2">Production End</label>
-                <InputDate Type="InputDateType.Date" id="ProductionEnd" @bind-Value="vehiclePost.ProductionEnd" class="mb-2" disabled="@isNewSubtype"></InputDate>
-                <ValidationMessage For="@(() => vehiclePost.ProductionEnd)" class="mb-2"></ValidationMessage>
+                <InputDate Type="InputDateType.Date" id="ProductionEnd" @bind-Value="vehiclePost.ProductionEnd" class="mb-2 @((vehiclePost.ProductionStart > vehiclePost.ProductionEnd) ? "test" : "")" disabled="@isNewSubtype" ></InputDate>
+                @if(vehiclePost.ProductionEnd != null)
+                {
+                    @if(vehiclePost.ProductionStart > vehiclePost.ProductionEnd)
+                    {
+                        <p class="text-danger">Production End should be after Production Start</p>
+                    }
+                }
             </div>
             <div class="mt-2 d-flex flex-column">
                 <label for="VehicleNotes" class="mb-2">VehicleNotes</label>
@@ -54,29 +62,30 @@
 
         <div class="mt-2 d-flex flex-column">
             <label for="SubtypeType" class="mb-2">Subtype Type</label>
-            <InputSelect id="SubtypeType" ValueExpression="@(() => vehiclePost.SubType )" Value="@vehiclePost.SubType" ValueChanged="@((SubType subType) => HandleVehicleSubType(subType))">
-                <option selected value="99" >Select Vehicle Type...</option>
+            <InputSelect id="SubtypeType" @bind-Value="vehiclePost.SubType">
+                <option selected value="@SubType.NotDefined">Select Vehicle Type...</option>
                 <option value="@SubType.Land" >Land Vehicle</option>
                 <option value="@SubType.Water" >Water Vehicle</option>
             </InputSelect>
             <ValidationMessage For="@(() => vehiclePost.VehicleNotes)" class="mb-2"></ValidationMessage>
         </div>
     </div>
+    @if (vehiclePost.SubType is SubType.Land or SubType.Water)
+    {
+        <h5 class="border-top border-dark pt-2">Subtype Type Specifics:</h5>
+        <div class="d-flex flex-md-column mb-2 ">
 
-    <h5 class="border-top border-dark pt-2 @(hideSubtype? "hidden" : string.Empty)" >Subtype Type Specifics:</h5>
-    <div class="d-flex flex-md-column mb-2 @(hideSubtype? "hidden" : string.Empty)" >
-
-        <div class="mt-2 d-flex flex-column border-bottom">
+            <div class="mt-2 d-flex flex-column border-bottom">
                 <label for="EnginePower" class="mb-2">Engine Power</label>
                 <InputNumber id="EnginePower" @bind-Value="vehiclePost.EnginePower" class="mb-2"></InputNumber>
                 <ValidationMessage For="@(() => vehiclePost.EnginePower)" class="mb-2"></ValidationMessage>
             </div>
-            <div class="mt-2 d-flex flex-column border-bottom" >
+            <div class="mt-2 d-flex flex-column border-bottom">
                 <label for="EngineTorque" class="mb-2">Engine Torque</label>
                 <InputNumber id="EngineTorque" @bind-Value="vehiclePost.EngineTorque" class="mb-2"></InputNumber>
                 <ValidationMessage For="@(() => vehiclePost.EngineTorque)" class="mb-2"></ValidationMessage>
             </div>
-            <div class="mt-2 d-flex flex-column border-bottom" >
+            <div class="mt-2 d-flex flex-column border-bottom">
                 <label for="MinCrew" class="mb-2">Min Crew</label>
                 <InputNumber id="MinCrew" @bind-Value="vehiclePost.MinCrew" class="mb-2"></InputNumber>
                 <ValidationMessage For="@(() => vehiclePost.MinCrew)" class="mb-2"></ValidationMessage>
@@ -85,6 +94,8 @@
         </div>
 
         <h5 class="border-top border-dark pt-2">Fuel Specifics</h5>
+    }
+
 
 
 
@@ -99,6 +110,8 @@
 @code {
     [Parameter]
     public int Id { get; set; } 
+
+    private EditContext? editContext;
 
     //Booleans to handle element display status 
     //basic
@@ -128,8 +141,13 @@
             vehiclePost.ProductionEnd = response.Data.ProductionEnd;
             vehiclePost.VehicleNotes = response.Data.VehicleNotes;
 
+            
         }
+
+        
     }
+
+
 
 
     private async Task HandleVehicleSubType(SubType value)
