@@ -7,5 +7,5 @@ using System.Threading.Tasks;
 
 namespace MAS_PROJ.Shared.Models
 {
-    public enum PoiseTypes { Wheels, Tracks, WheelsTracks }
+    public enum PoiseTypes { NotDefined, Wheels, Tracks, WheelsTracks }
 }

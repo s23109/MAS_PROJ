@@ -7,5 +7,5 @@ using System.Threading.Tasks;
 
 namespace MAS_PROJ.Shared.Models
 {
-    public enum PurposeTypes { Transport, Passenger , TransportPassenger}
+    public enum PurposeTypes { NotDefined, Transport, Passenger , TransportPassenger}
 }

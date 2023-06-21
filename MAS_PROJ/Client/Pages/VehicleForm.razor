@@ -29,7 +29,7 @@
             </div>
             <div class="mt-2 d-flex flex-column border-bottom">
                 <label for="ProductionEnd" class="mb-2">Production End</label>
-                <InputDate Type="InputDateType.Date" id="ProductionEnd" @bind-Value="vehiclePost.ProductionEnd" class="mb-2 @((vehiclePost.ProductionStart > vehiclePost.ProductionEnd) ? "test" : "")" disabled="@isNewSubtype" ></InputDate>
+                <InputDate Type="InputDateType.Date" id="ProductionEnd" @bind-Value="vehiclePost.ProductionEnd" class="mb-2 " disabled="@isNewSubtype" ></InputDate>
                 @if(vehiclePost.ProductionEnd != null)
                 {
                     @if(vehiclePost.ProductionStart > vehiclePost.ProductionEnd)
@@ -48,7 +48,7 @@
     </div>
 
     <h5 class="border-top border-dark pt-2">Subtype Data:</h5>
-    <div class="d-flex flex-md-column mb-3">
+    <div class="d-flex flex-column mb-3">
         <div class="mt-2 d-flex flex-column border-bottom">
             <label for="SubtypeName" class="mb-2">Subtype Name</label>
             <InputText id="SubtypeName" @bind-Value="vehiclePost.Name" class="mb-2"></InputText>
@@ -73,8 +73,10 @@
     @if (vehiclePost.SubType is SubType.Land or SubType.Water)
     {
         <h5 class="border-top border-dark pt-2">Subtype Type Specifics:</h5>
-        <div class="d-flex flex-md-column mb-2 ">
+        <div class="d-flex flex-column mb-2 ">
 
+            @if (vehiclePost.SubType is SubType.Land)
+            {
             <div class="mt-2 d-flex flex-column border-bottom">
                 <label for="EnginePower" class="mb-2">Engine Power</label>
                 <InputNumber id="EnginePower" @bind-Value="vehiclePost.EnginePower" class="mb-2"></InputNumber>
@@ -85,15 +87,91 @@
                 <InputNumber id="EngineTorque" @bind-Value="vehiclePost.EngineTorque" class="mb-2"></InputNumber>
                 <ValidationMessage For="@(() => vehiclePost.EngineTorque)" class="mb-2"></ValidationMessage>
             </div>
+            }
+
+            @if(vehiclePost.SubType is SubType.Water)
+            {
             <div class="mt-2 d-flex flex-column border-bottom">
                 <label for="MinCrew" class="mb-2">Min Crew</label>
                 <InputNumber id="MinCrew" @bind-Value="vehiclePost.MinCrew" class="mb-2"></InputNumber>
                 <ValidationMessage For="@(() => vehiclePost.MinCrew)" class="mb-2"></ValidationMessage>
             </div>
+            }
+        </div>
+
+
+        
+        <h5 class="border-top border-dark pt-2">Fuel Specifics</h5>
+        <div class="d-flex flex-md-column mb-2 ">
+            <div class="d-flex flex-md-row mb-2 justify-content-around w-100">
+                <div class="mt-2 d-flex flex-column border-bottom">
+                <label for="fuelCombustion" class="mb-2">Combustion</label>
+                <InputCheckbox id="fuelCombustion" @bind-Value="fuelCombustion" class="mb-2"></InputCheckbox>
+                </div>
+                <div class="mt-2 d-flex flex-column border-bottom">
+                <label for="fuelElectric" class="mb-2">Electric</label>
+                <InputCheckbox id="fuelElectric" @bind-Value="fuelElectric" class="mb-2"></InputCheckbox>
+                </div>
+                <div class="mt-2 d-flex flex-column border-bottom">
+                <label for="fuelOther" class="mb-2">Other</label>
+                <InputCheckbox id="fuelOther" @bind-Value="fuelOther" class="mb-2"></InputCheckbox>
+                </div>
+            </div>
+            @if (fuelCombustion)
+            {
+                <div class="mt-2 d-flex flex-column border-bottom">
+                    <label for="tankCapacity" class="mb-2">Tank Capacity</label>
+                    <InputNumber id="tankCapacity" @bind-Value="vehiclePost.FuelSpecifics.TankCapacity" class="mb-2"></InputNumber>
+                    <ValidationMessage For="@(() => vehiclePost.FuelSpecifics.TankCapacity)" class="mb-2"></ValidationMessage>
+                </div>
+                <div class="mt-2 d-flex flex-column">
+                    <label for="CombustionTypes" class="mb-2">Combustion Type</label>
+                    <InputSelect id="CombustionTypes" @bind-Value="vehiclePost.SubType">
+                        <option selected value="@SubType.NotDefined">Select Vehicle Type...</option>
+                        <option value="@SubType.Land">Land Vehicle</option>
+                        <option value="@SubType.Water">Water Vehicle</option>
+                    </InputSelect>
+                    <ValidationMessage For="@(() => vehiclePost.VehicleNotes)" class="mb-2"></ValidationMessage>
+                </div>
+            }
+
+
 
         </div>
 
-        <h5 class="border-top border-dark pt-2">Fuel Specifics</h5>
+        @if(vehiclePost.SubType is SubType.Land)
+        {
+            <h5 class="border-top border-dark pt-2">Poise Specifics</h5>
+            <div class="d-flex flex-md-column mb-2 ">
+                <div class="d-flex flex-md-row mb-2 justify-content-around w-100">
+                    <div class="mt-2 d-flex flex-column border-bottom">
+                        <label for="poiseWheels" class="mb-2">Wheels</label>
+                        <InputCheckbox id="poiseWheels" @bind-Value="poiseWheels" class="mb-2"></InputCheckbox>
+                    </div>
+                    <div class="mt-2 d-flex flex-column border-bottom">
+                        <label for="poiseTracks" class="mb-2">Tracks</label>
+                        <InputCheckbox id="poiseTracks" @bind-Value="poiseTracks" class="mb-2"></InputCheckbox>
+                    </div>
+                </div>
+            </div>
+        }
+
+        @if(vehiclePost.SubType is SubType.Water)
+        {
+            <h5 class="border-top border-dark pt-2">Purpose Specifics</h5>
+            <div class="d-flex flex-md-column mb-2 ">
+                <div class="d-flex flex-md-row mb-2 justify-content-around w-100">
+                    <div class="mt-2 d-flex flex-column border-bottom">
+                        <label for="purposeTransport" class="mb-2">Transport</label>
+                        <InputCheckbox id="purposeTransport" @bind-Value="purposeTransport" class="mb-2"></InputCheckbox>
+                    </div>
+                    <div class="mt-2 d-flex flex-column border-bottom">
+                        <label for="purposePassenger" class="mb-2">Passenger</label>
+                        <InputCheckbox id="purposePassenger" @bind-Value="purposePassenger" class="mb-2"></InputCheckbox>
+                    </div>
+                </div>
+            </div>
+        }
     }
 
 
@@ -111,15 +189,18 @@
     [Parameter]
     public int Id { get; set; } 
 
-    private EditContext? editContext;
-
     //Booleans to handle element display status 
-    //basic
     protected bool isNewSubtype { get; set; } = false;
-    //typeOfVehicle
-    public bool hideSubtype { get; set; } = true;
-    public bool isLandVehicle { get; set; } = false;
-    public bool isWaterVehicle { get; set; } = false;
+
+    protected bool fuelCombustion { get; set; } = false;
+    protected bool fuelElectric { get; set; } = false;
+    protected bool fuelOther { get; set; } = false;
+
+    protected bool poiseWheels { get; set; } = false;
+    protected bool poiseTracks { get; set; } = false;
+
+    protected bool purposeTransport { get; set; } = false;
+    protected bool purposePassenger { get; set; } = false;
 
 
 
@@ -129,6 +210,10 @@
     protected override async Task OnParametersSetAsync()
     {
         var response = await VehicleService.GetVehicleByIdAsync(Id);
+
+        vehiclePost.FuelSpecifics = new FuelSpecifics();
+        vehiclePost.PoiseSpecifics = new PoiseSpecifics();
+        vehiclePost.PurposeSpecifics = new PurposeSpecifics();
 
         if (response.Success && response.Data != null)
         {
@@ -147,35 +232,6 @@
         
     }
 
-
-
-
-    private async Task HandleVehicleSubType(SubType value)
-    {
-
-        vehiclePost.SubType = value;
-        isLandVehicle = false;
-        isWaterVehicle = false;
-        hideSubtype = true;
-
-        switch (vehiclePost.SubType)
-        {
-            case SubType.Land:
-                {
-                    isLandVehicle = true;
-                    hideSubtype = false;
-                    break;
-                }
-            case SubType.Water:
-                {
-                    isWaterVehicle = true;
-                    hideSubtype = false;
-                    break;
-                }
-        }
-
-        await InvokeAsync(StateHasChanged);
-    }
 
 
 

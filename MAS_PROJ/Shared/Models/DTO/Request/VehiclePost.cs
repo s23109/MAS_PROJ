@@ -21,7 +21,7 @@ namespace MAS_PROJ.Shared.Models.DTO.Request
         public string Name { get; set; }
         public string? SubtypeNotes { get; set; }
 
-        [IsValidSubtype]
+        [IsValidSubtype(ErrorMessage = "Please select valid subtype")]
         public SubType SubType { get; set; }
 
         [RequiredIf("SubType", SubType.Land)]

@@ -1,4 +1,4 @@
 ﻿namespace MAS_PROJ.Shared.Models
 {
-    public enum LoadTypes { Liquid, Gas, Solid }
+    public enum LoadTypes { NotDefined, Liquid, Gas, Solid }
 }

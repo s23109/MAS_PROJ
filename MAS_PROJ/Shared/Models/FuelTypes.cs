@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 
 namespace MAS_PROJ.Shared.Models
 {
-    public enum FuelTypes { Combustion, 
+    public enum FuelTypes { NotDefined,
+        Combustion, 
         Electric, 
         Other, 
         CombustionElectric, 
