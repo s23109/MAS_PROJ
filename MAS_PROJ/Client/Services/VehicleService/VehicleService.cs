@@ -19,40 +19,15 @@ namespace MAS_PROJ.Client.Services.VehicleService
 
         public async Task<ServiceResponse<VehiclePost>> AddVehicleSubTypeAsync(VehiclePost newVehicle, int VehicleId)
         {
-            var request = await _httpClient.PostAsJsonAsync($"/api/Vehicles/Create/{VehicleId}", newVehicle);
-            try
-            {
-                
-                var response = await request.Content.ReadFromJsonAsync<ServiceResponse<VehiclePost>>();
-                return response;
-            }
-            catch (Exception ex)
-            {
-                return new ServiceResponse<VehiclePost>()
-                {
-                    Success = false,
-                    Message = ex.Message
-                };
-            }
+            var request = await _httpClient.PostAsJsonAsync($"/api/Vehicle/Create/{VehicleId}", newVehicle);
+            return await request.Content.ReadFromJsonAsync<ServiceResponse<VehiclePost>>();
             
         }
 
         public async Task<ServiceResponse<VehiclePost>> CreateVehicleAsync(VehiclePost newVehicle)
         {
-            var request = await _httpClient.PostAsJsonAsync("/api/Vehicles/CreateNew", newVehicle);
-            try
-            {
-                var response = await request.Content.ReadFromJsonAsync<ServiceResponse<VehiclePost>>();
-                return response;
-            }
-            catch (Exception ex)
-            {
-                return new ServiceResponse<VehiclePost>()
-                {
-                    Success = false,
-                    Message = ex.Message
-                };
-            }
+            var request = await _httpClient.PostAsJsonAsync("/api/Vehicle/CreateNew", newVehicle);
+            return await request.Content.ReadFromJsonAsync<ServiceResponse<VehiclePost>>();
         }
 
         public async Task<ServiceResponse<VehicleGet>> GetVehicleByIdAsync(int Id)

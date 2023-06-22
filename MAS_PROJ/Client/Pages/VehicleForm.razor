@@ -6,7 +6,7 @@
 
 <PageTitle>Vehicle Form</PageTitle>
 
-<EditForm Model="vehiclePost" class="mb-4" OnSubmit="HandleSubmit">
+<EditForm Model="vehiclePost" class="mb-4" OnValidSubmit="HandleSubmit">
     <DataAnnotationsValidator/>
     <h5>Vehicle Data:</h5>
     <div class="d-flex flex-md-column mb-2">
@@ -308,21 +308,21 @@
         {
 
 
-                var response = await VehicleService.GetVehicleByIdAsync(Id);
+            var response = await VehicleService.GetVehicleByIdAsync(Id);
 
-                if (response.Success && response.Data != null)
-                {
-                    isNewSubtype = true;
+            if (response.Success && response.Data != null)
+            {
+                isNewSubtype = true;
 
-                    //bind data to vehiclePost
-                    vehiclePost.Manufacturer = response.Data.Manufacturer;
-                    vehiclePost.Model = response.Data.Model;
-                    vehiclePost.ProductionStart = response.Data.ProductionStart;
-                    vehiclePost.ProductionEnd = response.Data.ProductionEnd;
-                    vehiclePost.VehicleNotes = response.Data.VehicleNotes;
+                //bind data to vehiclePost
+                vehiclePost.Manufacturer = response.Data.Manufacturer;
+                vehiclePost.Model = response.Data.Model;
+                vehiclePost.ProductionStart = response.Data.ProductionStart;
+                vehiclePost.ProductionEnd = response.Data.ProductionEnd;
+                vehiclePost.VehicleNotes = response.Data.VehicleNotes;
 
-        
-                }
+
+            }
         }
 
     }
@@ -413,6 +413,7 @@
         }
         else
         {
+            
             await JsRuntime.InvokeVoidAsync("alert", result.Message);
         }
 

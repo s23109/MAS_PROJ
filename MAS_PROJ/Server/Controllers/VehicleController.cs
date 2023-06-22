@@ -53,7 +53,7 @@ namespace MAS_PROJ.Server.Controllers
         }
 
         [HttpPost("CreateNew")]
-        public async Task<ActionResult<VehiclePost>> CreateNewVehicle(VehiclePost vehicle)
+        public async Task<ActionResult<VehiclePost>> CreateNewVehicle([FromBody]VehiclePost vehicle)
         {
             var result = await _vehicleService.CreateVehicleAsync(vehicle);
 
@@ -69,7 +69,7 @@ namespace MAS_PROJ.Server.Controllers
 
 
         [HttpPost("Create/{Id}")]
-        public async Task<ActionResult<VehiclePost>> AddSubtypeToExisting(VehiclePost vehicle, int Id)
+        public async Task<ActionResult<VehiclePost>> AddSubtypeToExisting([FromBody] VehiclePost vehicle,int Id)
         {
             var result = await _vehicleService.AddVehicleSubTypeAsync(vehicle, Id);
 
