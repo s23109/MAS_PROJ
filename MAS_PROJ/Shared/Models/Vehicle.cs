@@ -1,19 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MAS_PROJ.Shared.Models
 {
     public class Vehicle
     {
-        public Vehicle() {}
+        public Vehicle() { }
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int IdVehicle { get; set; }
         public string Manufacturer { get; set; }
-        public string Model{ get; set; }
+        public string Model { get; set; }
         public DateTime ProductionStart { get; set; }
         public DateTime? ProductionEnd { get; set; }
         public string? VehicleNotes { get; set; }
@@ -22,6 +17,6 @@ namespace MAS_PROJ.Shared.Models
         public IEnumerable<VehicleSubType> VehicleSubTypeNavigation { get; set; }
 
         //Association - VehiclePart
-        public IEnumerable<VehiclePart> VehiclePartNavigation { get; set;}
+        public IEnumerable<VehiclePart> VehiclePartNavigation { get; set; }
     }
 }

@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MAS_PROJ.Shared.Models
 {
     public class Employee : SystemUser
     {
-        public Employee() {}
+        public Employee() { }
         public DateTime HireDate { get; set; }
         public DateTime? FireDate { get; set; }
         [Column(TypeName = "decimal(18,2)")]

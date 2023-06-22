@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MAS_PROJ.Shared.Models
 {
     public class Part
     {
-        public Part() {}
+        public Part() { }
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int IdPart { get; set; }
         public string Name { get; set; }

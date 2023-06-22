@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MAS_PROJ.Shared.Models.DTO.Response
+﻿namespace MAS_PROJ.Shared.Models.DTO.Response
 {
     public class VehicleSubTypeGet
     {
@@ -23,5 +17,5 @@ namespace MAS_PROJ.Shared.Models.DTO.Response
         public PurposeSpecifics? PurposeSpecifics { get; set; }
     }
 
-    public enum SubType { NotDefined , Land , Water }
+    public enum SubType { NotDefined, Land, Water }
 }

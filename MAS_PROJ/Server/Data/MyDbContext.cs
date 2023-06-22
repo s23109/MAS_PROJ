@@ -98,8 +98,8 @@ namespace MAS_PROJ.Server.Data
                     new
                     {
                         LandVehicleIdSubtype = 1,
-                        FuelType =  FuelTypes.Combustion,
-                        CombustionType =CombustionTypes.Diesel,
+                        FuelType = FuelTypes.Combustion,
+                        CombustionType = CombustionTypes.Diesel,
                         TankCapacity = 60
 
                     },
@@ -116,7 +116,7 @@ namespace MAS_PROJ.Server.Data
                     new
                     {
                         LandVehicleIdSubtype = 1,
-                        PoiseType =PoiseTypes.Wheels,
+                        PoiseType = PoiseTypes.Wheels,
                         WheelAmount = 4,
                         WheelWidth = 18
                     },

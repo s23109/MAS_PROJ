@@ -75,7 +75,7 @@ namespace MAS_PROJ.Server.Services.VehicleService
         public async Task<ServiceResponse<VehiclePost>> CreateVehicleAsync(VehiclePost newVehicle)
         {
             var response = new ServiceResponse<VehiclePost>();
-            
+
 
             using (var transaction = await _dbContext.Database.BeginTransactionAsync())
             {

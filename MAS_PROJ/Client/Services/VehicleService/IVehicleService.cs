@@ -1,6 +1,6 @@
-﻿using MAS_PROJ.Shared.Models.DTO.Response;
-using MAS_PROJ.Shared;
+﻿using MAS_PROJ.Shared;
 using MAS_PROJ.Shared.Models.DTO.Request;
+using MAS_PROJ.Shared.Models.DTO.Response;
 
 namespace MAS_PROJ.Client.Services.VehicleService
 {

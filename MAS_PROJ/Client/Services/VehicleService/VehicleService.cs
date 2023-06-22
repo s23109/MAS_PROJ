@@ -19,7 +19,7 @@ namespace MAS_PROJ.Client.Services.VehicleService
 
         public async Task<ServiceResponse<VehiclePost>> AddVehicleSubTypeAsync(VehiclePost newVehicle, int VehicleId)
         {
-            
+
             try
             {
                 var request = await _httpClient.PostAsJsonAsync($"/api/Vehicle/Create/{VehicleId}", newVehicle);
@@ -37,13 +37,13 @@ namespace MAS_PROJ.Client.Services.VehicleService
                     Message = ex.Message
                 };
             }
-            
-            
+
+
         }
 
         public async Task<ServiceResponse<VehiclePost>> CreateVehicleAsync(VehiclePost newVehicle)
         {
-            
+
             try
             {
                 var request = await _httpClient.PostAsJsonAsync("/api/Vehicle/CreateNew", newVehicle);

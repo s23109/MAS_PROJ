@@ -38,7 +38,7 @@ namespace MAS_PROJ.Shared.Models.DTO.Request
         //Complex Attributes
 
         //Fuel
-        [RequiredIfEnumProperty("SubType",typeof(SubType), SubType.NotDefined, new[] { SubType.Land, SubType.Water})]
+        [RequiredIfEnumProperty("SubType", typeof(SubType), SubType.NotDefined, new[] { SubType.Land, SubType.Water })]
         public FuelTypes? FuelType { get; set; }
 
 
@@ -125,7 +125,7 @@ namespace MAS_PROJ.Shared.Models.DTO.Request
         }
     }
 
-   
+
 
     public class RequiredIfEnumPropertyAttribute : ValidationAttribute
     {

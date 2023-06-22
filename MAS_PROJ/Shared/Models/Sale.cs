@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MAS_PROJ.Shared.Models
 {
     public class Sale
     {
-        public Sale() {}
+        public Sale() { }
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int IdSale { get; set; }
         public DateTime DateOfTransaction { get; set; }
@@ -24,7 +19,7 @@ namespace MAS_PROJ.Shared.Models
         //Association - Employee
         public int? IdEmployee { get; set; }
         [ForeignKey("IdUser")]
-        public Employee? EmployeeNavigation { get; set; }  
+        public Employee? EmployeeNavigation { get; set; }
 
 
     }
