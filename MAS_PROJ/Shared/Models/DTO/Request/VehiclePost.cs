@@ -39,6 +39,8 @@ namespace MAS_PROJ.Shared.Models.DTO.Request
 
         //Fuel
         [RequiredIfEnumProperty("SubType", typeof(SubType), SubType.NotDefined, new[] { SubType.Land, SubType.Water })]
+        [NotEqualToValue(FuelTypes.NotDefined)]
+
         public FuelTypes? FuelType { get; set; }
 
 
@@ -125,6 +127,25 @@ namespace MAS_PROJ.Shared.Models.DTO.Request
         }
     }
 
+    public class NotEqualToValue : ValidationAttribute
+    {
+        private readonly object _specifiedValue;
+
+        public NotEqualToValue(object specifiedValue)
+        {
+            _specifiedValue = specifiedValue;
+        }
+
+        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+        {
+            if (value != null && value.Equals(_specifiedValue))
+            {
+                return new ValidationResult($"{validationContext.DisplayName} cannot have the specified value.");
+            }
+
+            return ValidationResult.Success;
+        }
+    }
 
 
     public class RequiredIfEnumPropertyAttribute : ValidationAttribute
