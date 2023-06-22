@@ -1,5 +1,4 @@
 ﻿using MAS_PROJ.Server.Data;
-using MAS_PROJ.Shared.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace MAS_PROJ.Server.Services.VehicleService
@@ -16,7 +15,7 @@ namespace MAS_PROJ.Server.Services.VehicleService
         }
 
         public async Task<ServiceResponse<VehiclePost>> AddVehicleSubTypeAsync(VehiclePost newVehicle, int VehicleId)
-        { 
+        {
             var response = new ServiceResponse<VehiclePost>();
 
             if (!(await _dbContext.Vehicles.AnyAsync(e => e.IdVehicle == VehicleId)))
@@ -32,14 +31,15 @@ namespace MAS_PROJ.Server.Services.VehicleService
 
                 if (newVehicle.SubType == SubType.Land)
                 {
-                    var subType = new LandVehicle { 
-                    IdVehicle = VehicleId,
-                    Name = newVehicle.Name,
-                    SubtypeNotes = newVehicle.SubtypeNotes,
-                    EnginePower = newVehicle.EnginePower,
-                    EngineTorque = newVehicle.EngineTorque,
-                    FuelSpecifics = newVehicle.FuelSpecifics,
-                    PoiseSpecifics = newVehicle.PoiseSpecifics
+                    var subType = new LandVehicle
+                    {
+                        IdVehicle = VehicleId,
+                        Name = newVehicle.Name,
+                        SubtypeNotes = newVehicle.SubtypeNotes,
+                        EnginePower = newVehicle.EnginePower,
+                        EngineTorque = newVehicle.EngineTorque,
+                        FuelSpecifics = createFuelFromVehiclePost(newVehicle),
+                        PoiseSpecifics = createPoiseFromVehiclePost(newVehicle)
                     };
 
                     _dbContext.LandVehicles.Add(subType);
@@ -56,8 +56,8 @@ namespace MAS_PROJ.Server.Services.VehicleService
                         Name = newVehicle.Name,
                         SubtypeNotes = newVehicle.SubtypeNotes,
                         MinCrew = newVehicle.MinCrew,
-                        FuelSpecifics = newVehicle.FuelSpecifics,
-                        PurposeSpecifics = newVehicle.PurposeSpecifics
+                        FuelSpecifics = createFuelFromVehiclePost(newVehicle),
+                        PurposeSpecifics = createPurposeFromVehiclePost(newVehicle)
                     };
 
                     _dbContext.WaterVehicles.Add(subType);
@@ -77,7 +77,8 @@ namespace MAS_PROJ.Server.Services.VehicleService
             var response = new ServiceResponse<VehiclePost>();
             int newVehicleId = 0;
 
-            using (var transaction = await _dbContext.Database.BeginTransactionAsync()){
+            using (var transaction = await _dbContext.Database.BeginTransactionAsync())
+            {
                 try
                 {
                     var vehicle = new Vehicle
@@ -102,8 +103,8 @@ namespace MAS_PROJ.Server.Services.VehicleService
                             SubtypeNotes = newVehicle.SubtypeNotes,
                             EnginePower = newVehicle.EnginePower,
                             EngineTorque = newVehicle.EngineTorque,
-                            FuelSpecifics = newVehicle.FuelSpecifics,
-                            PoiseSpecifics = newVehicle.PoiseSpecifics
+                            FuelSpecifics = createFuelFromVehiclePost(newVehicle),
+                            PoiseSpecifics = createPoiseFromVehiclePost(newVehicle)
                         };
 
                         _dbContext.LandVehicles.Add(subType);
@@ -120,8 +121,8 @@ namespace MAS_PROJ.Server.Services.VehicleService
                             Name = newVehicle.Name,
                             SubtypeNotes = newVehicle.SubtypeNotes,
                             MinCrew = newVehicle.MinCrew,
-                            FuelSpecifics = newVehicle.FuelSpecifics,
-                            PurposeSpecifics = newVehicle.PurposeSpecifics
+                            FuelSpecifics = createFuelFromVehiclePost(newVehicle),
+                            PurposeSpecifics = createPurposeFromVehiclePost(newVehicle)
                         };
 
                         _dbContext.WaterVehicles.Add(subType);
@@ -133,7 +134,7 @@ namespace MAS_PROJ.Server.Services.VehicleService
 
                     await transaction.CommitAsync();
                 }
-                catch (Exception ex) 
+                catch (Exception ex)
                 {
                     await transaction.RollbackAsync();
                     response.Success = false;
@@ -142,6 +143,43 @@ namespace MAS_PROJ.Server.Services.VehicleService
             }
 
             return response;
+        }
+
+        public FuelSpecifics createFuelFromVehiclePost(VehiclePost vehiclepost)
+        {
+            return new FuelSpecifics
+            {
+                FuelType = vehiclepost.FuelType,
+                BatteryCapacity = vehiclepost.BatteryCapacity,
+                BatteryType = vehiclepost.BatteryType,
+                CombustionType = vehiclepost.CombustionType,
+                FuelTypeDescription = vehiclepost.FuelTypeDescription,
+                TankCapacity = vehiclepost.TankCapacity
+            };
+        }
+
+        public PurposeSpecifics createPurposeFromVehiclePost(VehiclePost vehiclepost)
+        {
+            return new PurposeSpecifics
+            {
+                LoadType = vehiclepost.LoadType,
+                MaxPassengers = vehiclepost.MaxPassengers,
+                MinLifeBoats = vehiclepost.MinLifeBoats,
+                PurposeType = vehiclepost.PurposeType,
+                ShipCapacity = vehiclepost.ShipCapacity
+            };
+        }
+
+        public PoiseSpecifics createPoiseFromVehiclePost(VehiclePost vehiclepost)
+        {
+            return new PoiseSpecifics
+            {
+                PoiseType = vehiclepost.PoiseType,
+                TrackLength = vehiclepost.TrackLength,
+                TrackWidth = vehiclepost.TrackWidth,
+                WheelAmount = vehiclepost.WheelAmount,
+                WheelWidth = vehiclepost.WheelWidth
+            };
         }
 
         public async Task<ServiceResponse<VehicleGet>> GetVehicleByIdAsync(int IdVehicle)
@@ -180,7 +218,8 @@ namespace MAS_PROJ.Server.Services.VehicleService
             var response = new ServiceResponse<VehicleDetailsGet>();
             var vehicleExists = await _dbContext.Vehicles.AnyAsync(e => e.IdVehicle == IdVehicle);
 
-            if (!vehicleExists) { 
+            if (!vehicleExists)
+            {
                 response.Success = false;
                 response.Message = "Vehicle with this ID does not exist";
             }
@@ -188,7 +227,8 @@ namespace MAS_PROJ.Server.Services.VehicleService
             {
                 var waterSubTypes = await _dbContext.WaterVehicles.AsNoTracking()
                     .Where(e => e.IdVehicle == IdVehicle)
-                    .Select(e => new VehicleSubTypeGet {
+                    .Select(e => new VehicleSubTypeGet
+                    {
                         IdSubtype = e.IdSubtype,
                         Name = e.Name,
                         SubtypeNotes = e.SubtypeNotes,

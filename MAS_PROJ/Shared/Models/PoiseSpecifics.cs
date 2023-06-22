@@ -15,7 +15,6 @@ namespace MAS_PROJ.Shared.Models
     {
         [Required]
         [EnumDataType(typeof(PoiseTypes))]
-        [IsValidPoiseType]
         public PoiseTypes PoiseType { get; set; }
 
         //Wheel Atributes
@@ -27,30 +26,5 @@ namespace MAS_PROJ.Shared.Models
         public int? TrackWidth { get; set; }
     }
 
-    public class IsValidPoiseType : ValidationAttribute
-    {
-        protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
-        {
-            var model = validationContext.ObjectInstance;
-
-            if (value == null) return new ValidationResult("Field is required");
-
-            if ((Enum.IsDefined(typeof(PoiseTypes), value)))
-            {
-
-                if (value is PoiseTypes.NotDefined)
-                {
-                    return new ValidationResult("Field is required");
-                }
-                else
-                {
-                    return ValidationResult.Success;
-                }
-            }
-            else
-            {
-                return new ValidationResult("Invalid Value");
-            }
-        }
-    }
+   
 }

@@ -22,6 +22,7 @@ namespace MAS_PROJ.Client.Services.VehicleService
             var request = await _httpClient.PostAsJsonAsync($"/api/Vehicles/Create/{VehicleId}", newVehicle);
             try
             {
+                
                 var response = await request.Content.ReadFromJsonAsync<ServiceResponse<VehiclePost>>();
                 return response;
             }
@@ -38,7 +39,7 @@ namespace MAS_PROJ.Client.Services.VehicleService
 
         public async Task<ServiceResponse<VehiclePost>> CreateVehicleAsync(VehiclePost newVehicle)
         {
-            var request = await _httpClient.PostAsJsonAsync("/api/Vehicles/Create", newVehicle);
+            var request = await _httpClient.PostAsJsonAsync("/api/Vehicles/CreateNew", newVehicle);
             try
             {
                 var response = await request.Content.ReadFromJsonAsync<ServiceResponse<VehiclePost>>();

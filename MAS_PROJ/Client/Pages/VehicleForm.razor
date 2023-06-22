@@ -107,34 +107,34 @@
             <div class="d-flex flex-md-row mb-2 justify-content-around w-100">
                 <div class="mt-2 d-flex flex-column border-bottom">
                 <label for="fuelCombustion" class="mb-2">Combustion</label>
-                <InputCheckbox id="fuelCombustion" @bind-Value="fuelCombustion" class="mb-2" @oninput="HandleFuel"></InputCheckbox>
+                <InputCheckbox id="fuelCombustion" @bind-Value="fuelCombustion" class="mb-2" @onclick="HandleFuel"></InputCheckbox>
                 </div>
                 <div class="mt-2 d-flex flex-column border-bottom">
                 <label for="fuelElectric" class="mb-2">Electric</label>
-                    <InputCheckbox id="fuelElectric" @bind-Value="fuelElectric" class="mb-2" @oninput="HandleFuel"></InputCheckbox>
+                    <InputCheckbox id="fuelElectric" @bind-Value="fuelElectric" class="mb-2" @onclick="HandleFuel"></InputCheckbox>
                 </div>
                 <div class="mt-2 d-flex flex-column border-bottom">
                 <label for="fuelOther" class="mb-2">Other</label>
-                    <InputCheckbox id="fuelOther" @bind-Value="fuelOther" class="mb-2" @oninput="HandleFuel"></InputCheckbox>
+                    <InputCheckbox id="fuelOther" @bind-Value="fuelOther" class="mb-2" @onclick="HandleFuel"></InputCheckbox>
                 </div>
 
-                <ValidationMessage For="@(() => vehiclePost.FuelSpecifics.FuelType )" class="mb-2"></ValidationMessage>
+                <ValidationMessage For="@(() => vehiclePost.FuelType )" class="mb-2"></ValidationMessage>
             </div>
             @if (fuelCombustion)
             {
                 <div class="mt-2 d-flex flex-column border-bottom">
                     <label for="tankCapacity" class="mb-2">Tank Capacity</label>
-                    <InputNumber id="tankCapacity" @bind-Value="vehiclePost.FuelSpecifics.TankCapacity" class="mb-2"></InputNumber>
-                    <ValidationMessage For="@(() => vehiclePost.FuelSpecifics.TankCapacity)" class="mb-2"></ValidationMessage>
+                    <InputNumber id="tankCapacity" @bind-Value="vehiclePost.TankCapacity" class="mb-2"></InputNumber>
+                    <ValidationMessage For="@(() => vehiclePost.TankCapacity)" class="mb-2"></ValidationMessage>
                 </div>
                 <div class="mt-2 d-flex flex-column">
                     <label for="CombustionTypes" class="mb-2">Combustion Type</label>
-                    <InputSelect id="CombustionTypes" @bind-Value="vehiclePost.FuelSpecifics.CombustionType">
+                    <InputSelect id="CombustionTypes" @bind-Value="vehiclePost.CombustionType">
                         <option selected value="@CombustionTypes.NotDefined">Select Combustion Type...</option>
                         <option value="@CombustionTypes.Diesel">Diesel</option>
                         <option value="@CombustionTypes.Gasoline">Gasoline</option>
                     </InputSelect>
-                    <ValidationMessage For="@(() => vehiclePost.FuelSpecifics.CombustionType)" class="mb-2"></ValidationMessage>
+                    <ValidationMessage For="@(() => vehiclePost.CombustionType)" class="mb-2"></ValidationMessage>
                 </div>
             }
 
@@ -142,19 +142,19 @@
             {
                 <div class="mt-2 d-flex flex-column border-bottom">
                     <label for="batteryCapacity" class="mb-2">Battery Capacity</label>
-                    <InputNumber id="batteryCapacity" @bind-Value="vehiclePost.FuelSpecifics.BatteryCapacity" class="mb-2"></InputNumber>
-                    <ValidationMessage For="@(() => vehiclePost.FuelSpecifics.BatteryCapacity)" class="mb-2"></ValidationMessage>
+                    <InputNumber id="batteryCapacity" @bind-Value="vehiclePost.BatteryCapacity" class="mb-2"></InputNumber>
+                    <ValidationMessage For="@(() => vehiclePost.BatteryCapacity)" class="mb-2"></ValidationMessage>
                 </div>
                 <div class="mt-2 d-flex flex-column">
                     <label for="batteryType" class="mb-2">Battery Type</label>
-                    <InputSelect id="batteryType" @bind-Value="vehiclePost.FuelSpecifics.BatteryType">
+                    <InputSelect id="batteryType" @bind-Value="vehiclePost.BatteryType">
                         <option selected value="@BatteryTypes.NotDefined">Select Battery Type...</option>
                         <option value="@BatteryTypes.NMC">NMC</option>
                         <option value="@BatteryTypes.LMO">LMO</option>
                         <option value="@BatteryTypes.LFP">LFP</option>
                         <option value="@BatteryTypes.NCA">NCA</option>
                     </InputSelect>
-                    <ValidationMessage For="@(() => vehiclePost.FuelSpecifics.BatteryType)" class="mb-2"></ValidationMessage>
+                    <ValidationMessage For="@(() => vehiclePost.BatteryType)" class="mb-2"></ValidationMessage>
                 </div>
             }
 
@@ -162,8 +162,8 @@
             {
                 <div class="mt-2 d-flex flex-column border-bottom">
                     <label for="fuelTypeDescription" class="mb-2">FuelType Description</label>
-                    <InputTextArea id="fuelTypeDescription" @bind-Value="vehiclePost.FuelSpecifics.FuelTypeDescription" class="mb-2"></InputTextArea>
-                    <ValidationMessage For="@(() => vehiclePost.FuelSpecifics.FuelTypeDescription)" class="mb-2"></ValidationMessage>
+                    <InputTextArea id="fuelTypeDescription" @bind-Value="vehiclePost.FuelTypeDescription" class="mb-2"></InputTextArea>
+                    <ValidationMessage For="@(() => vehiclePost.FuelTypeDescription)" class="mb-2"></ValidationMessage>
                 </div>
             }
 
@@ -178,26 +178,26 @@
                 <div class="d-flex flex-md-row mb-2 justify-content-around w-100">
                     <div class="mt-2 d-flex flex-column border-bottom">
                         <label for="poiseWheels" class="mb-2">Wheels</label>
-                        <InputCheckbox id="poiseWheels" @bind-Value="poiseWheels" class="mb-2" @oninput="HandlePoises"></InputCheckbox>
+                        <InputCheckbox id="poiseWheels" @bind-Value="poiseWheels" class="mb-2" @onclick="HandlePoises"></InputCheckbox>
                     </div>
                     <div class="mt-2 d-flex flex-column border-bottom">
                         <label for="poiseTracks" class="mb-2">Tracks</label>
-                        <InputCheckbox id="poiseTracks" @bind-Value="poiseTracks" class="mb-2" @oninput="HandlePoises"></InputCheckbox>
+                        <InputCheckbox id="poiseTracks" @bind-Value="poiseTracks" class="mb-2" @onclick="HandlePoises"></InputCheckbox>
                     </div>
-                    <ValidationMessage For="@(() => vehiclePost.PoiseSpecifics.PoiseType)"></ValidationMessage>
+                    <ValidationMessage For="@(() => vehiclePost.PoiseType)"></ValidationMessage>
                 </div>
 
                 @if (poiseWheels)
                 {
                     <div class="mt-2 d-flex flex-column border-bottom">
                         <label for="wheelAmount" class="mb-2">Wheel Amount</label>
-                        <InputNumber id="wheelAmount" @bind-Value="vehiclePost.PoiseSpecifics.WheelAmount" class="mb-2"></InputNumber>
-                        <ValidationMessage For="@(() => vehiclePost.PoiseSpecifics.WheelAmount)" class="mb-2"></ValidationMessage>
+                        <InputNumber id="wheelAmount" @bind-Value="vehiclePost.WheelAmount" class="mb-2"></InputNumber>
+                        <ValidationMessage For="@(() => vehiclePost.WheelAmount)" class="mb-2"></ValidationMessage>
                     </div>
                     <div class="mt-2 d-flex flex-column border-bottom">
                         <label for="wheelWidth" class="mb-2">Wheel Width</label>
-                        <InputNumber id="wheelWidth" @bind-Value="vehiclePost.PoiseSpecifics.WheelWidth" class="mb-2"></InputNumber>
-                        <ValidationMessage For="@(() => vehiclePost.PoiseSpecifics.WheelWidth)" class="mb-2"></ValidationMessage>
+                        <InputNumber id="wheelWidth" @bind-Value="vehiclePost.WheelWidth" class="mb-2"></InputNumber>
+                        <ValidationMessage For="@(() => vehiclePost.WheelWidth)" class="mb-2"></ValidationMessage>
                     </div>
                 }
 
@@ -205,13 +205,13 @@
                 {
                     <div class="mt-2 d-flex flex-column border-bottom">
                         <label for="trackLength" class="mb-2">Track Length</label>
-                        <InputNumber id="trackLength" @bind-Value="vehiclePost.PoiseSpecifics.TrackLength" class="mb-2"></InputNumber>
-                        <ValidationMessage For="@(() => vehiclePost.PoiseSpecifics.TrackLength)" class="mb-2"></ValidationMessage>
+                        <InputNumber id="trackLength" @bind-Value="vehiclePost.TrackLength" class="mb-2"></InputNumber>
+                        <ValidationMessage For="@(() => vehiclePost.TrackLength)" class="mb-2"></ValidationMessage>
                     </div>
                     <div class="mt-2 d-flex flex-column border-bottom">
                         <label for="trackWidth" class="mb-2">Track Width</label>
-                        <InputNumber id="trackWidth" @bind-Value="vehiclePost.PoiseSpecifics.TrackWidth" class="mb-2"></InputNumber>
-                        <ValidationMessage For="@(() => vehiclePost.PoiseSpecifics.TrackWidth)" class="mb-2"></ValidationMessage>
+                        <InputNumber id="trackWidth" @bind-Value="vehiclePost.TrackWidth" class="mb-2"></InputNumber>
+                        <ValidationMessage For="@(() => vehiclePost.TrackWidth)" class="mb-2"></ValidationMessage>
                     </div>
                 }
 
@@ -225,26 +225,26 @@
                 <div class="d-flex flex-md-row mb-2 justify-content-around w-100">
                     <div class="mt-2 d-flex flex-column border-bottom">
                         <label for="purposeTransport" class="mb-2">Transport</label>
-                        <InputCheckbox id="purposeTransport" @bind-Value="purposeTransport" class="mb-2" @oninput="HandlePurpose"></InputCheckbox>
+                        <InputCheckbox id="purposeTransport" @bind-Value="purposeTransport" class="mb-2" @onclick="HandlePurpose"></InputCheckbox>
                     </div>
                     <div class="mt-2 d-flex flex-column border-bottom">
                         <label for="purposePassenger" class="mb-2">Passenger</label>
-                        <InputCheckbox id="purposePassenger" @bind-Value="purposePassenger" class="mb-2" @oninput="HandlePurpose"></InputCheckbox>
+                        <InputCheckbox id="purposePassenger" @bind-Value="purposePassenger" class="mb-2" @onclick="HandlePurpose"></InputCheckbox>
                     </div>
-                    <ValidationMessage For="@(() => vehiclePost.PurposeSpecifics.PurposeType )"></ValidationMessage>
+                    <ValidationMessage For="@(() => vehiclePost.PurposeType )"></ValidationMessage>
                 </div>
 
                 @if (purposePassenger)
                 {
                     <div class="mt-2 d-flex flex-column border-bottom">
                         <label for="minLifeBoats" class="mb-2">Min LifeBoats</label>
-                        <InputNumber id="minLifeBoats" @bind-Value="vehiclePost.PurposeSpecifics.MinLifeBoats" class="mb-2"></InputNumber>
-                        <ValidationMessage For="@(() => vehiclePost.PurposeSpecifics.MinLifeBoats)" class="mb-2"></ValidationMessage>
+                        <InputNumber id="minLifeBoats" @bind-Value="vehiclePost.MinLifeBoats" class="mb-2"></InputNumber>
+                        <ValidationMessage For="@(() => vehiclePost.MinLifeBoats)" class="mb-2"></ValidationMessage>
                     </div>
                     <div class="mt-2 d-flex flex-column border-bottom">
                         <label for="maxPassengers" class="mb-2">Max Passengers</label>
-                        <InputNumber id="maxPassengers" @bind-Value="vehiclePost.PurposeSpecifics.MaxPassengers" class="mb-2"></InputNumber>
-                        <ValidationMessage For="@(() => vehiclePost.PurposeSpecifics.MaxPassengers)" class="mb-2"></ValidationMessage>
+                        <InputNumber id="maxPassengers" @bind-Value="vehiclePost.MaxPassengers" class="mb-2"></InputNumber>
+                        <ValidationMessage For="@(() => vehiclePost.MaxPassengers)" class="mb-2"></ValidationMessage>
                     </div>
                 }
 
@@ -252,18 +252,18 @@
                 {
                     <div class="mt-2 d-flex flex-column">
                         <label for="loadType" class="mb-2">Load Type</label>
-                        <InputSelect id="batteryType" @bind-Value="vehiclePost.PurposeSpecifics.LoadType">
+                        <InputSelect id="batteryType" @bind-Value="vehiclePost.LoadType">
                             <option selected value="@LoadTypes.NotDefined">Select Load Type...</option>
                             <option value="@LoadTypes.Solid">Solid</option>
                             <option value="@LoadTypes.Gas">Gas</option>
                             <option value="@LoadTypes.Liquid">Liquid</option>
                         </InputSelect>
-                        <ValidationMessage For="@(() => vehiclePost.PurposeSpecifics.LoadType)" class="mb-2"></ValidationMessage>
+                        <ValidationMessage For="@(() => vehiclePost.LoadType)" class="mb-2"></ValidationMessage>
                     </div>
                     <div class="mt-2 d-flex flex-column border-bottom">
                         <label for="shipCapacity" class="mb-2">Ship Capacity</label>
-                        <InputNumber id="shipCapacity" @bind-Value="vehiclePost.PurposeSpecifics.ShipCapacity" class="mb-2"></InputNumber>
-                        <ValidationMessage For="@(() => vehiclePost.PurposeSpecifics.ShipCapacity)" class="mb-2"></ValidationMessage>
+                        <InputNumber id="shipCapacity" @bind-Value="vehiclePost.ShipCapacity" class="mb-2"></InputNumber>
+                        <ValidationMessage For="@(() => vehiclePost.ShipCapacity)" class="mb-2"></ValidationMessage>
                     </div>
                 }
 
@@ -299,12 +299,7 @@
 
 
 
-    public VehiclePost vehiclePost = new VehiclePost()
-    {
-            FuelSpecifics = new FuelSpecifics(),
-            PoiseSpecifics = new PoiseSpecifics(),
-            PurposeSpecifics = new PurposeSpecifics()
-    };
+    public VehiclePost vehiclePost = new VehiclePost();
 
 
     protected override async Task OnParametersSetAsync()
@@ -341,7 +336,7 @@
 
         var currPoise = Tuple.Create(poiseTracks, poiseWheels);
 
-        vehiclePost.PoiseSpecifics.PoiseType = poises[currPoise];
+        vehiclePost.PoiseType = poises[currPoise];
     }
 
     protected void HandlePurpose()
@@ -356,7 +351,7 @@
 
         var currPurpose = Tuple.Create(purposePassenger, purposeTransport);
 
-        vehiclePost.PurposeSpecifics.PurposeType = purposes[currPurpose];
+        vehiclePost.PurposeType = purposes[currPurpose];
     }
 
     protected void HandleFuel()
@@ -376,7 +371,7 @@
 
         var currFuel = Tuple.Create(fuelOther, fuelElectric, fuelCombustion);
 
-        vehiclePost.FuelSpecifics.FuelType = fuels[currFuel];
+        vehiclePost.FuelType = fuels[currFuel];
     }
 
 
@@ -415,7 +410,7 @@
         }
         else
         {
-            await JsRuntime.InvokeVoidAsync("alert", result.Data);
+            await JsRuntime.InvokeVoidAsync("alert", result.Message);
         }
 
     }

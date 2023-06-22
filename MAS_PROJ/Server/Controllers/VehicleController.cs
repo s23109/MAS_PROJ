@@ -52,7 +52,7 @@ namespace MAS_PROJ.Server.Controllers
 
         }
 
-        [HttpPost("Create")]
+        [HttpPost("CreateNew")]
         public async Task<ActionResult<VehiclePost>> CreateNewVehicle(VehiclePost vehicle)
         {
             var result = await _vehicleService.CreateVehicleAsync(vehicle);
