@@ -6,7 +6,7 @@
 
 <PageTitle>Vehicle Form</PageTitle>
 
-<EditForm Model="vehiclePost" class="mb-4" OnValidSubmit="HandleSubmit">
+<EditForm Model="vehiclePost" class="mb-4" OnValidSubmit="HandleSubmit" >
     <DataAnnotationsValidator/>
     <h5>Vehicle Data:</h5>
     <div class="d-flex flex-md-column mb-2">
@@ -107,15 +107,15 @@
             <div class="d-flex flex-md-row mb-2 justify-content-around w-100">
                 <div class="mt-2 d-flex flex-column border-bottom">
                 <label for="fuelCombustion" class="mb-2">Combustion</label>
-                <InputCheckbox id="fuelCombustion" @bind-Value="fuelCombustion" class="mb-2" @onclick="HandleFuel"></InputCheckbox>
+                <InputCheckbox id="fuelCombustion" @bind-Value="fuelCombustion" class="mb-2" @onchange="HandleFuel"></InputCheckbox>
                 </div>
                 <div class="mt-2 d-flex flex-column border-bottom">
                 <label for="fuelElectric" class="mb-2">Electric</label>
-                    <InputCheckbox id="fuelElectric" @bind-Value="fuelElectric" class="mb-2" @onclick="HandleFuel"></InputCheckbox>
+                    <InputCheckbox id="fuelElectric" @bind-Value="fuelElectric" class="mb-2" @onchange="HandleFuel"></InputCheckbox>
                 </div>
                 <div class="mt-2 d-flex flex-column border-bottom">
                 <label for="fuelOther" class="mb-2">Other</label>
-                    <InputCheckbox id="fuelOther" @bind-Value="fuelOther" class="mb-2" @onclick="HandleFuel"></InputCheckbox>
+                    <InputCheckbox id="fuelOther" @bind-Value="fuelOther" class="mb-2" @onchange="HandleFuel"></InputCheckbox>
                 </div>
 
                 <ValidationMessage For="@(() => vehiclePost.FuelType )" class="mb-2"></ValidationMessage>
@@ -178,11 +178,11 @@
                 <div class="d-flex flex-md-row mb-2 justify-content-around w-100">
                     <div class="mt-2 d-flex flex-column border-bottom">
                         <label for="poiseWheels" class="mb-2">Wheels</label>
-                        <InputCheckbox id="poiseWheels" @bind-Value="poiseWheels" class="mb-2" @onclick="HandlePoises"></InputCheckbox>
+                        <InputCheckbox id="poiseWheels" @bind-Value="poiseWheels" class="mb-2" @onchange="HandlePoises"></InputCheckbox>
                     </div>
                     <div class="mt-2 d-flex flex-column border-bottom">
                         <label for="poiseTracks" class="mb-2">Tracks</label>
-                        <InputCheckbox id="poiseTracks" @bind-Value="poiseTracks" class="mb-2" @onclick="HandlePoises"></InputCheckbox>
+                        <InputCheckbox id="poiseTracks" @bind-Value="poiseTracks" class="mb-2" @onchange="HandlePoises"></InputCheckbox>
                     </div>
                     <ValidationMessage For="@(() => vehiclePost.PoiseType)"></ValidationMessage>
                 </div>
@@ -225,11 +225,11 @@
                 <div class="d-flex flex-md-row mb-2 justify-content-around w-100">
                     <div class="mt-2 d-flex flex-column border-bottom">
                         <label for="purposeTransport" class="mb-2">Transport</label>
-                        <InputCheckbox id="purposeTransport" @bind-Value="purposeTransport" class="mb-2" @onclick="HandlePurpose"></InputCheckbox>
+                        <InputCheckbox id="purposeTransport" @bind-Value="purposeTransport" class="mb-2" @onchange="HandlePurpose"></InputCheckbox>
                     </div>
                     <div class="mt-2 d-flex flex-column border-bottom">
                         <label for="purposePassenger" class="mb-2">Passenger</label>
-                        <InputCheckbox id="purposePassenger" @bind-Value="purposePassenger" class="mb-2" @onclick="HandlePurpose"></InputCheckbox>
+                        <InputCheckbox id="purposePassenger" @bind-Value="purposePassenger" class="mb-2" @onchange="HandlePurpose"></InputCheckbox>
                     </div>
                     <ValidationMessage For="@(() => vehiclePost.PurposeType )"></ValidationMessage>
                 </div>
@@ -271,8 +271,10 @@
         }
     }
 
+    <ValidationSummary/>
+
     <div class="mt-2 d-flex flex-row justify-content-around">
-        <button type="submit" class="btn btn-primary">Send</button>
+        <button type="submit" class="btn btn-primary" @onmouseover="BeforeSend">Send</button>
     </div>
     
 
@@ -325,6 +327,13 @@
             }
         }
 
+    }
+
+    protected void BeforeSend()
+    {
+        HandleFuel();
+        HandlePoises();
+        HandlePurpose();
     }
 
     protected void HandlePoises()
@@ -391,9 +400,14 @@
         //Fuel:
         HandleFuel();
 
+
+        //Validate Model
+        
+
         //then send ...
 
         var result = new ServiceResponse<VehiclePost>();
+        result.Success = false;
 
         if (isNewSubtype)
         {

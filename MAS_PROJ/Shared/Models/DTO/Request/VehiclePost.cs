@@ -38,7 +38,7 @@ namespace MAS_PROJ.Shared.Models.DTO.Request
         //Complex Attributes
 
         //Fuel
-        [IsNotDefaultWhenFieldIsNotDefault("SubType",SubType.NotDefined,FuelTypes.NotDefined)]
+        [RequiredIfEnumProperty("SubType",typeof(SubType), SubType.NotDefined, new[] { SubType.Land, SubType.Water})]
         public FuelTypes? FuelType { get; set; }
 
 
@@ -125,35 +125,7 @@ namespace MAS_PROJ.Shared.Models.DTO.Request
         }
     }
 
-    public class IsNotDefaultWhenFieldIsNotDefault : ValidationAttribute
-    {
-        private readonly string _dependentProperty;
-        private readonly object _dependentDefaultValue;
-        private readonly object _fieldDefaultValue;
-
-        public IsNotDefaultWhenFieldIsNotDefault(
-            string dependentProperty,
-            object dependentDefaultValue = null,
-            object fieldDifferentDefaultValue = null)
-        {
-            _dependentProperty = dependentProperty;
-            _dependentDefaultValue = dependentDefaultValue;
-            _fieldDefaultValue = fieldDifferentDefaultValue;
-        }
-
-        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
-        {
-            var dependentPropertyValue = validationContext.ObjectType.GetProperty(_dependentProperty)?.GetValue(validationContext.ObjectInstance);
-
-            if (dependentPropertyValue != null && !Equals(dependentPropertyValue, _dependentDefaultValue) && value != null &&
-                !Equals(value, _fieldDefaultValue))
-            {
-                return ValidationResult.Success;
-            }
-
-            return new ValidationResult($"{validationContext.DisplayName} is required.");
-        }
-    }
+   
 
     public class RequiredIfEnumPropertyAttribute : ValidationAttribute
     {
@@ -183,7 +155,7 @@ namespace MAS_PROJ.Shared.Models.DTO.Request
                 IsTriggerValueMatch(dependentPropertyValue) &&
                 IsValueNullOrEmpty(value))
             {
-                return new ValidationResult($"{validationContext.DisplayName} is required when {_dependentProperty} is one of {_triggerValues}.");
+                return new ValidationResult($"{validationContext.DisplayName} is required when {_dependentProperty} has this value.");
             }
 
             return ValidationResult.Success;
