@@ -11,6 +11,8 @@ namespace MAS_PROJ.Shared.Models.DTO.Request
         public string Model { get; set; }
         [Required]
         public DateTime ProductionStart { get; set; }
+
+        [AfterDate("ProductionStart")]
         public DateTime? ProductionEnd { get; set; }
         public string? VehicleNotes { get; set; }
 
@@ -23,30 +25,34 @@ namespace MAS_PROJ.Shared.Models.DTO.Request
         public SubType SubType { get; set; }
 
         [RequiredIfEnumProperty("SubType", typeof(SubType), SubType.NotDefined, SubType.Land)]
-
+        [Range(1, int.MaxValue)]
         public int? EnginePower { get; set; }
         [RequiredIfEnumProperty("SubType", typeof(SubType), SubType.NotDefined, SubType.Land)]
+        [Range(1, int.MaxValue)]
         public int? EngineTorque { get; set; }
 
         [RequiredIfEnumProperty("SubType", typeof(SubType), SubType.NotDefined, SubType.Water)]
+        [Range(1, int.MaxValue)]
         public int? MinCrew { get; set; }
 
         //Complex Attributes
 
         //Fuel
-        [RequiredIfNotNull("SubType", SubType.NotDefined)]
+        [IsNotDefaultWhenFieldIsNotDefault("SubType",SubType.NotDefined,FuelTypes.NotDefined)]
         public FuelTypes? FuelType { get; set; }
 
 
         //Combustion Attributes
 
         [RequiredIfEnumProperty("FuelType", typeof(FuelTypes), FuelTypes.NotDefined, new[] { FuelTypes.Combustion, FuelTypes.CombustionElectric, FuelTypes.CombustionOther, FuelTypes.CombustionElectricOther })]
+        [Range(1, int.MaxValue)]
         public int? TankCapacity { get; set; }
         [RequiredIfEnumProperty("FuelType", typeof(FuelTypes), FuelTypes.NotDefined, new[] { FuelTypes.Combustion, FuelTypes.CombustionElectric, FuelTypes.CombustionOther, FuelTypes.CombustionElectricOther })]
         public CombustionTypes? CombustionType { get; set; }
 
         //Electric Attributes
         [RequiredIfEnumProperty("FuelType", typeof(FuelTypes), FuelTypes.NotDefined, new[] { FuelTypes.Electric, FuelTypes.CombustionElectric, FuelTypes.ElectricOther, FuelTypes.CombustionElectricOther })]
+        [Range(1, int.MaxValue)]
         public int? BatteryCapacity { get; set; }
         [RequiredIfEnumProperty("FuelType", typeof(FuelTypes), FuelTypes.NotDefined, new[] { FuelTypes.Electric, FuelTypes.CombustionElectric, FuelTypes.ElectricOther, FuelTypes.CombustionElectricOther })]
         public BatteryTypes? BatteryType { get; set; }
@@ -62,14 +68,18 @@ namespace MAS_PROJ.Shared.Models.DTO.Request
 
         //Wheel Atributes
         [RequiredIfEnumProperty("PoiseType", typeof(PoiseTypes), PoiseTypes.NotDefined, new[] { PoiseTypes.Wheels, PoiseTypes.WheelsTracks })]
+        [Range(1, int.MaxValue)]
         public int? WheelAmount { get; set; }
         [RequiredIfEnumProperty("PoiseType", typeof(PoiseTypes), PoiseTypes.NotDefined, new[] { PoiseTypes.Wheels, PoiseTypes.WheelsTracks })]
+        [Range(1, int.MaxValue)]
         public int? WheelWidth { get; set; }
 
         //Track Atributes
         [RequiredIfEnumProperty("PoiseType", typeof(PoiseTypes), PoiseTypes.NotDefined, new[] { PoiseTypes.Tracks, PoiseTypes.WheelsTracks })]
+        [Range(1, int.MaxValue)]
         public int? TrackLength { get; set; }
         [RequiredIfEnumProperty("PoiseType", typeof(PoiseTypes), PoiseTypes.NotDefined, new[] { PoiseTypes.Tracks, PoiseTypes.WheelsTracks })]
+        [Range(1, int.MaxValue)]
         public int? TrackWidth { get; set; }
 
         //Purpose
@@ -78,6 +88,7 @@ namespace MAS_PROJ.Shared.Models.DTO.Request
 
         //Transport Attributes
         [RequiredIfEnumProperty("PurposeType", typeof(PurposeTypes), PurposeTypes.NotDefined, new[] { PurposeTypes.Transport, PurposeTypes.TransportPassenger })]
+        [Range(1, int.MaxValue)]
         public int? ShipCapacity { get; set; }
         [RequiredIfEnumProperty("PurposeType", typeof(PurposeTypes), PurposeTypes.NotDefined, new[] { PurposeTypes.Transport, PurposeTypes.TransportPassenger })]
 
@@ -85,8 +96,10 @@ namespace MAS_PROJ.Shared.Models.DTO.Request
 
         //Passenger Attributes
         [RequiredIfEnumProperty("PurposeType", typeof(PurposeTypes), PurposeTypes.NotDefined, new[] { PurposeTypes.Passenger, PurposeTypes.TransportPassenger })]
+        [Range(1, int.MaxValue)]
         public int? MaxPassengers { get; set; }
         [RequiredIfEnumProperty("PurposeType", typeof(PurposeTypes), PurposeTypes.NotDefined, new[] { PurposeTypes.Passenger, PurposeTypes.TransportPassenger })]
+        [Range(1, int.MaxValue)]
         public int? MinLifeBoats { get; set; }
 
 
@@ -112,27 +125,33 @@ namespace MAS_PROJ.Shared.Models.DTO.Request
         }
     }
 
-    public class RequiredIfNotNullAttribute : ValidationAttribute
+    public class IsNotDefaultWhenFieldIsNotDefault : ValidationAttribute
     {
         private readonly string _dependentProperty;
-        private readonly object _defaultValue;
+        private readonly object _dependentDefaultValue;
+        private readonly object _fieldDefaultValue;
 
-        public RequiredIfNotNullAttribute(string dependentProperty, object defaultValue = null)
+        public IsNotDefaultWhenFieldIsNotDefault(
+            string dependentProperty,
+            object dependentDefaultValue = null,
+            object fieldDifferentDefaultValue = null)
         {
             _dependentProperty = dependentProperty;
-            _defaultValue = defaultValue;
+            _dependentDefaultValue = dependentDefaultValue;
+            _fieldDefaultValue = fieldDifferentDefaultValue;
         }
 
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
             var dependentPropertyValue = validationContext.ObjectType.GetProperty(_dependentProperty)?.GetValue(validationContext.ObjectInstance);
 
-            if (dependentPropertyValue != null && !Equals(dependentPropertyValue, _defaultValue) && value == null)
+            if (dependentPropertyValue != null && !Equals(dependentPropertyValue, _dependentDefaultValue) && value != null &&
+                !Equals(value, _fieldDefaultValue))
             {
-                return new ValidationResult($"{validationContext.DisplayName} is required when {_dependentProperty} is not null.");
+                return ValidationResult.Success;
             }
 
-            return ValidationResult.Success;
+            return new ValidationResult($"{validationContext.DisplayName} is required.");
         }
     }
 
@@ -203,6 +222,40 @@ namespace MAS_PROJ.Shared.Models.DTO.Request
             }
 
             return false;
+        }
+    }
+
+    public class AfterDateAttribute : ValidationAttribute
+    {
+        private readonly string _otherProperty;
+
+        public AfterDateAttribute(string otherProperty)
+        {
+            _otherProperty = otherProperty;
+        }
+
+        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+        {
+            var otherPropertyInfo = validationContext.ObjectType.GetProperty(_otherProperty);
+
+            if (otherPropertyInfo == null)
+            {
+                return new ValidationResult($"Property {_otherProperty} not found.");
+            }
+
+            var otherValue = otherPropertyInfo.GetValue(validationContext.ObjectInstance);
+
+            var currentValue = value as DateTime?;
+
+            if (currentValue != null && otherValue is DateTime otherDateTime)
+            {
+                if (currentValue <= otherDateTime)
+                {
+                    return new ValidationResult($"{validationContext.DisplayName} must be after {_otherProperty}.");
+                }
+            }
+
+            return ValidationResult.Success;
         }
     }
 

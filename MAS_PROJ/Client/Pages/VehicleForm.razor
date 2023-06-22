@@ -1,12 +1,12 @@
 ﻿@page "/Vehicles/Create"
-@page "/Vehicles/Create/{Id:int}"
+@page "/Vehicles/Add/{Id:int}"
 @inject IVehicleService VehicleService
 @inject NavigationManager NavigationManager
 @inject IJSRuntime JsRuntime
 
 <PageTitle>Vehicle Form</PageTitle>
 
-<EditForm Model="vehiclePost" class="mb-4" OnValidSubmit="HandleSubmit">
+<EditForm Model="vehiclePost" class="mb-4" OnSubmit="HandleSubmit">
     <DataAnnotationsValidator/>
     <h5>Vehicle Data:</h5>
     <div class="d-flex flex-md-column mb-2">
@@ -304,22 +304,25 @@
 
     protected override async Task OnParametersSetAsync()
     {
-        if (Id!= null)
+        if (Id != null && Id != 0)
         {
-        var response = await VehicleService.GetVehicleByIdAsync(Id);
 
-        if (response.Success && response.Data != null)
-        {
-            isNewSubtype = true;
 
-            //bind data to vehiclePost
-            vehiclePost.Manufacturer = response.Data.Manufacturer;
-            vehiclePost.Model = response.Data.Model;
-            vehiclePost.ProductionStart = response.Data.ProductionStart;
-            vehiclePost.ProductionEnd = response.Data.ProductionEnd;
-            vehiclePost.VehicleNotes = response.Data.VehicleNotes;
+                var response = await VehicleService.GetVehicleByIdAsync(Id);
 
-        }
+                if (response.Success && response.Data != null)
+                {
+                    isNewSubtype = true;
+
+                    //bind data to vehiclePost
+                    vehiclePost.Manufacturer = response.Data.Manufacturer;
+                    vehiclePost.Model = response.Data.Model;
+                    vehiclePost.ProductionStart = response.Data.ProductionStart;
+                    vehiclePost.ProductionEnd = response.Data.ProductionEnd;
+                    vehiclePost.VehicleNotes = response.Data.VehicleNotes;
+
+        
+                }
         }
 
     }

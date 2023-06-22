@@ -75,7 +75,7 @@ namespace MAS_PROJ.Server.Services.VehicleService
         public async Task<ServiceResponse<VehiclePost>> CreateVehicleAsync(VehiclePost newVehicle)
         {
             var response = new ServiceResponse<VehiclePost>();
-            int newVehicleId = 0;
+            
 
             using (var transaction = await _dbContext.Database.BeginTransactionAsync())
             {
@@ -92,7 +92,7 @@ namespace MAS_PROJ.Server.Services.VehicleService
 
                     _dbContext.Vehicles.Add(vehicle);
                     await _dbContext.SaveChangesAsync();
-                    newVehicleId = vehicle.IdVehicle;
+                    int newVehicleId = _dbContext.Vehicles.Where(e => e.Manufacturer == vehicle.Manufacturer && e.Model == vehicle.Model && e.VehicleNotes == vehicle.VehicleNotes).First().IdVehicle;
 
                     if (newVehicle.SubType == SubType.Land)
                     {
