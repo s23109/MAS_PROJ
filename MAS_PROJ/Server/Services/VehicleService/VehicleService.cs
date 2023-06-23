@@ -92,7 +92,7 @@ namespace MAS_PROJ.Server.Services.VehicleService
 
                     _dbContext.Vehicles.Add(vehicle);
                     await _dbContext.SaveChangesAsync();
-                    int newVehicleId = _dbContext.Vehicles.Where(e => e.Manufacturer == vehicle.Manufacturer && e.Model == vehicle.Model && e.VehicleNotes == vehicle.VehicleNotes).First().IdVehicle;
+                    int newVehicleId = vehicle.IdVehicle;
 
                     if (newVehicle.SubType == SubType.Land)
                     {
@@ -225,49 +225,64 @@ namespace MAS_PROJ.Server.Services.VehicleService
             }
             else
             {
-                var waterSubTypes = await _dbContext.WaterVehicles.AsNoTracking()
-                    .Where(e => e.IdVehicle == IdVehicle)
-                    .Select(e => new VehicleSubTypeGet
-                    {
-                        IdSubtype = e.IdSubtype,
-                        Name = e.Name,
-                        SubtypeNotes = e.SubtypeNotes,
-                        SubType = SubType.Water,
-                        FuelSpecifics = e.FuelSpecifics,
-                        PurposeSpecifics = e.PurposeSpecifics,
-                        MinCrew = e.MinCrew
-                    })
-                    .ToListAsync();
+                var vehicle = await _dbContext.Vehicles.Where(e => e.IdVehicle == IdVehicle)
+                    .Include(e => e.VehicleSubTypeNavigation).FirstAsync();
 
-                var landSubTypes = await _dbContext.LandVehicles.AsNoTracking()
-                    .Where(e => e.IdVehicle == IdVehicle)
-                    .Select(e => new VehicleSubTypeGet
-                    {
-                        IdSubtype = e.IdSubtype,
-                        Name = e.Name,
-                        SubtypeNotes = e.SubtypeNotes,
-                        SubType = SubType.Land,
-                        FuelSpecifics = e.FuelSpecifics,
-                        PoiseSpecifics = e.PoiseSpecifics,
-                        EnginePower = e.EnginePower,
-                        EngineTorque = e.EngineTorque
-                    })
-                    .ToListAsync();
-                var allSubtypes = waterSubTypes.Concat(landSubTypes).ToList();
+                List<VehicleSubTypeGet> vehicleSubtypes = new List<VehicleSubTypeGet>();
 
-                var vehicle = await _dbContext.Vehicles.AsNoTracking()
-                    .Where(e => e.IdVehicle == IdVehicle)
-                    .Select(e => new VehicleDetailsGet
+                foreach (var vehicleSubType in vehicle.VehicleSubTypeNavigation)
+                {
+
+                    if (vehicleSubType is VehicleSubType)
                     {
-                        IdVehicle = e.IdVehicle,
-                        Manufacturer = e.Manufacturer,
-                        Model = e.Model,
-                        ProductionStart = e.ProductionStart,
-                        ProductionEnd = e.ProductionEnd,
-                        VehicleNotes = e.VehicleNotes,
-                        VehicleSubType = allSubtypes
-                    }).FirstOrDefaultAsync();
-                response.Data = vehicle;
+
+                        if (vehicleSubType is LandVehicle)
+                        {
+                            var castVehicle = (LandVehicle)vehicleSubType;
+                            vehicleSubtypes.Add(new VehicleSubTypeGet
+                            {
+                                EnginePower = castVehicle.EnginePower,
+                                EngineTorque = castVehicle.EngineTorque,
+                                FuelSpecifics = castVehicle.FuelSpecifics,
+                                IdSubtype = castVehicle.IdSubtype,
+                                Name = castVehicle.Name,
+                                PoiseSpecifics = castVehicle.PoiseSpecifics,
+                                SubtypeNotes = castVehicle.SubtypeNotes,
+                                SubType = SubType.Land
+
+                            });
+                        }
+
+
+                        if (vehicleSubType is WaterVehicle)
+                        {
+                            var castVehicle = (WaterVehicle)vehicleSubType;
+                            vehicleSubtypes.Add(new VehicleSubTypeGet { 
+                            MinCrew = castVehicle.MinCrew,
+                            IdSubtype = castVehicle.IdSubtype,
+                            FuelSpecifics = castVehicle.FuelSpecifics,
+                            PurposeSpecifics = castVehicle.PurposeSpecifics,
+                            Name = castVehicle.Name,
+                            SubtypeNotes = castVehicle.SubtypeNotes,
+                            SubType = SubType.Water
+                            });
+
+                        }
+                    }
+
+                }
+
+                response.Data = new VehicleDetailsGet { 
+                IdVehicle = vehicle.IdVehicle,
+                Manufacturer = vehicle.Manufacturer,
+                Model = vehicle.Model,
+                ProductionStart = vehicle.ProductionStart,
+                ProductionEnd = vehicle.ProductionEnd,
+                VehicleNotes = vehicle.VehicleNotes,
+                VehicleSubType = vehicleSubtypes
+                };
+
+
             }
 
             return response;
@@ -277,8 +292,6 @@ namespace MAS_PROJ.Server.Services.VehicleService
 
         public async Task<ServiceResponse<List<VehicleGet>>> GetVehiclesAsync()
         {
-
-
             var response = new ServiceResponse<List<VehicleGet>>
             {
                 Data = await _dbContext.Vehicles.
