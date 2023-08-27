@@ -65,7 +65,7 @@ namespace MAS_PROJ.Shared.Models.DTO.Request
         public string? FuelTypeDescription { get; set; }
 
         //Poise
-        [RequiredIfEnumProperty("SubType", typeof(SubType), SubType.NotDefined, SubType.Land)]
+        [PoisePurposeValidator("SubType",SubType.Land,PoiseTypes.NotDefined)]
         public PoiseTypes PoiseType { get; set; }
 
         //Wheel Atributes
@@ -85,7 +85,7 @@ namespace MAS_PROJ.Shared.Models.DTO.Request
         public int? TrackWidth { get; set; }
 
         //Purpose
-        [RequiredIfEnumProperty("SubType", typeof(SubType), SubType.NotDefined, SubType.Water)]
+        [PoisePurposeValidator("SubType", SubType.Water, PurposeTypes.NotDefined)]
         public PurposeTypes PurposeType { get; set; }
 
         //Transport Attributes
@@ -218,6 +218,43 @@ namespace MAS_PROJ.Shared.Models.DTO.Request
         }
     }
 
+
+    public class PoisePurposeValidator : ValidationAttribute
+    {
+        //if subtype type is speficic value, then 
+
+        private readonly string _dependentProperty;
+        private readonly object _triggerValueDependant;
+        private readonly object _defaultValueCurrent;
+
+        public PoisePurposeValidator(string dependentProperty, object triggerValueDependant, object defaultValueCurrent)
+        {
+            _dependentProperty = dependentProperty;
+            _triggerValueDependant = triggerValueDependant;
+            _defaultValueCurrent = defaultValueCurrent;
+        }
+
+        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+        {
+            var dependantPropertyValue = validationContext.ObjectType.GetProperty(_dependentProperty)?.GetValue(validationContext.ObjectInstance);
+
+            if (Equals(dependantPropertyValue, _triggerValueDependant) )
+            {
+                if (!Equals(value, _defaultValueCurrent))
+                {
+                    return ValidationResult.Success;
+                }
+                else
+                {
+                    return new ValidationResult($"{validationContext.DisplayName} mustn't be {_defaultValueCurrent} when {_dependentProperty} is {_triggerValueDependant}");
+                }
+            }
+
+
+            return ValidationResult.Success;
+        }
+
+    }
     public class AfterDateAttribute : ValidationAttribute
     {
         private readonly string _otherProperty;
